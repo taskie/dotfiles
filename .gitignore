@@ -1,2 +1,7 @@
 *private*
+local/*
+bin/polkadot
+entry.yml
 tmp
+
+!local/.gitkeep
