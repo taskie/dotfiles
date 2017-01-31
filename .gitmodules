@@ -1,0 +1,12 @@
+[submodule "submodules/cdd"]
+	path = submodules/cdd
+	url = https://github.com/m4i/cdd
+[submodule "submodules/zsh-syntax-highlighting"]
+	path = submodules/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting
+[submodule "submodules/zsh-history-substring-search"]
+	path = submodules/zsh-history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search
+[submodule "submodules/zsh-completions"]
+	path = submodules/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions
