@@ -1,0 +1,13 @@
+'zsh':
+  type: 'exec'
+'peco':
+  type: 'exec'
+'fzf':
+  type: 'exec'
+'cabal':
+  type: 'exec'
+'go':
+  type: 'exec'
+'neobundle':
+  type: 'dir'
+  path: '~/.vim/bundle/neobundle.vim'

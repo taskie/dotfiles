@@ -1,0 +1,55 @@
+'~/.bashrc':
+  dirs: ['sh.d', 'bash.d']
+  pat: '\.sh$'
+
+'~/.config/peco/config.json':
+  dir: 'etc'
+  pat: '^peco.config(?:\.m4)?.json$'
+
+'~/.gdbinit':
+  dir: 'etc'
+  pat: '^gdbinit$'
+
+'~/.gitconfig':
+  dir: 'gitconfig.d'
+  pat: '\.conf$'
+
+'~/.gitignore':
+  dir: 'etc'
+  pat: '^gitignore$'
+
+'~/.gvimrc':
+  dir: 'etc'
+  pat: '^gvimrc$'
+
+'~/.nanorc':
+  dir: 'etc'
+  pat: '^nanorc(?:\.m4)?$'
+
+'~/.npmrc':
+  dir: 'etc'
+  pat: '^npmrc$'
+
+'~/.screenrc':
+  dir: 'etc'
+  pat: '^screenrc$'
+
+'~/.ssh/config':
+  dir: 'ssh.config.d'
+  pat: '\.conf$'
+
+'~/.tmux.conf':
+  dir: 'tmux.d'
+  pat: '\.conf$'
+
+'~/.vimrc':
+  dir: 'vim.d'
+  pat: '\.vim$'
+
+'~/.zshrc':
+  dirs: ['sh.d', 'zsh.d']
+  pat: '\.sh$'
+
+'~/.xstow.ini':
+  dir: 'etc'
+  pat: '^xstow.ini$'

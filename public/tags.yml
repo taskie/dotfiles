@@ -1,0 +1,33 @@
+win:
+  ['!emacsd']
+mac:
+  ['bsd']
+freebsd:
+  ['bsd']
+ubuntu:
+  ['linux', 'aptitude']
+centos:
+  ['linux', 'yum']
+arch:
+  ['linux', 'pacman']
+
+default:
+  ['taskie', 'emacsd']
+
+client:
+  ['default', 'white']
+server:
+  ['default', 'black']
+
+ubume:
+  ['server', 'ubuntu', 'allsrv', 'magenta']
+moryo:
+  ['server', 'arch', 'allsrv', 'violet']
+kyokotsu:
+  ['client', 'mac', 'allsrv']
+tesso:
+  ['client', 'win', 'allsrv']
+tessoarch:
+  ['client', 'arch', 'allsrv']
+jorogumo:
+  ['server', 'arch', 'allsrv', 'yellow']
