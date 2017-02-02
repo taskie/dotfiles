@@ -1,0 +1,15 @@
+#!/bin/bash
+set -u
+
+kegs=$(brew outdated | awk '{print $1}')
+for keg in $kegs
+do
+    echo "start upgrading $keg..."
+    if brew upgrade "$keg"; then
+        echo "finished upgrading $keg."
+    else
+        echo "finished upgrading $keg, but some errors occured."
+        exit 1
+    fi
+done
+brew cleanup

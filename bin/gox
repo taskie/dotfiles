@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+OS=("darwin" "linux" "linux" "linux" "windows")
+ARCH=("amd64" "arm" "386" "amd64" "amd64")
+
+echo "input version"
+echo -n "> "
+read VERSION
+
+PKGNAME=$(basename $(pwd))
+
+for (( i = 0; i < ${#OS[@]}; ++i ))
+do
+  GOOS=${OS["$i"]}
+  GOARCH=${ARCH["$i"]}
+
+  mkdir -p dist
+  echo -e "\033[0;32m""[build-crosscompile-env.sh" ${GOOS} ${GOARCH} "] Build...""\033[0m"
+  GOOS=${GOOS} GOARCH=${GOARCH} go build
+  if [ -f "${PKGNAME}.exe" ]; then
+      mv "${PKGNAME}.exe" "dist/${PKGNAME}-${VERSION}-${GOOS}_${GOARCH}.exe"
+  else
+      mv "${PKGNAME}" "dist/${PKGNAME}-${VERSION}-${GOOS}_${GOARCH}"
+  fi
+  echo -e "\033[0;32m""[build-crosscompile-env.sh" ${GOOS} ${GOARCH} "] done!""\033[0m"
+done
