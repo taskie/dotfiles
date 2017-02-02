@@ -1,55 +1,59 @@
-'dst/.bashrc':
+'distribute/.bashrc':
   dirs: ['sh.d', 'bash.d']
   pat: '\.sh$'
 
-'dst/.config/peco/config.json':
+'distribute/.config/peco/config.json':
   dir: 'etc'
   pat: '^peco(_.+?)?.config.json$'
 
-'dst/.gdbinit':
+'distribute/.gdbinit':
   dir: 'etc'
   pat: '^gdbinit(_.+)?$'
 
-'dst/.gitconfig':
+'distribute/.gitconfig':
   dir: 'gitconfig.d'
   pat: '\.conf$'
 
-'dst/.gitignore':
+'distribute/.gitignore':
   dir: 'etc'
   pat: '^gitignore(_.+)?$'
 
-'dst/.gvimrc':
+'distribute/.gvimrc':
   dir: 'etc'
   pat: '^gvimrc(_.+)?$'
 
-'dst/.nanorc':
+'distribute/.nanorc':
   dir: 'etc'
   pat: '^nanorc(_.+)$'
 
-'dst/.npmrc':
+'distribute/.npmrc':
   dir: 'etc'
   pat: '^npmrc(_.+)?'
 
-'dst/.screenrc':
+'distribute/.screenrc':
   dir: 'etc'
   pat: '^screenrc(_.+)?'
 
-'dst/.ssh/config':
+'distribute/.ssh/config':
   dir: 'ssh.config.d'
   pat: '\.conf$'
 
-'dst/.tmux.conf':
+'distribute/.tmux.conf':
   dir: 'tmux.d'
   pat: '\.conf$'
 
-'dst/.vimrc':
+'distribute/.vimrc':
   dir: 'vim.d'
   pat: '\.vim$'
 
-'dst/.zshrc':
+'distribute/.zshrc':
   dirs: ['sh.d', 'zsh.d']
   pat: '\.sh$'
 
-'dst/.xstow.ini':
+'distribute/.xstow.ini':
   dir: 'etc'
   pat: '^xstow(_.+?)?.ini$'
+
+'distribute/.emacs.d/init.el':
+  dir: 'emacs.d/init.d'
+  pat: '\.el$'

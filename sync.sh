@@ -67,18 +67,22 @@ rm_fi() {
 }
 
 if [ -n "$LINK" ]; then
-    for file in $(find dst)
+    for file in $(find distribute)
     do
-        if [ "$file" == "dst" -o "$file" == "dst/.gitkeep" ]; then
+        if [ "$file" == "distribute" -o "$file" == "distribute/.gitkeep" ]; then
             continue
         fi
         src="$(pwd)/$file"
-        dst="$HOME/${file##dst/}"
+        dst="$HOME/${file##distribute/}"
         echo "$src -> $dst"
         if [ -d "$src" ]; then
             mkdir -p "$dst"
         elif [ -f "$src" ]; then
-            rm_fi "$dst"
+            if [ ! -e "$dst" ]; then
+                rm -f "$dst"
+            else
+                rm_fi "$dst"
+            fi
             ln -s "$src" "$dst"
         fi
     done

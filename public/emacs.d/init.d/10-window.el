@@ -1,0 +1,10 @@
+(windmove-default-keybindings 'super)
+(winner-mode t)
+
+(defun tambo ()
+  (interactive)
+  (split-window-right)
+  (split-window-below)
+  (windmove-right)
+  (split-window-below)
+  (windmove-left))

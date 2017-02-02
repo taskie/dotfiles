@@ -1,8 +1,8 @@
 *private*
 local/*
-dst/*
+distribute/*
 bin/polkadot
 entry.yml
 
 !local/.gitkeep
-!dst/.gitkeep
+!distribute/.gitkeep
