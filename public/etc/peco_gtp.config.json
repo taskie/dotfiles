@@ -1,0 +1,12 @@
+{
+    "Keymap": {
+	"M-v": "peco.ScrollPageUp",
+	"C-v": "peco.ScrollPageDown",
+	"C-g": "peco.Cancel"
+    },
+    "Style": {
+	"Query": ["{{.color}}"],
+	"Selected": ["on_{{.color}}", "{{.color}}"],
+	"Matched": ["bold", "{{.color}}"]
+    }
+}

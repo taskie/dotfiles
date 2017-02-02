@@ -1,0 +1,1 @@
+PATH="$PATH":/mingw/bin

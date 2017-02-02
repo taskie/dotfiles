@@ -18,16 +18,3 @@ client:
   {color: 'white'}
 server:
   {color: 'black'}
-
-ubume:
-  {'server', 'ubuntu', 'allsrv', color: 'magenta'}
-moryo:
-  {'server', 'arch', 'allsrv', color: 'violet'}
-kyokotsu:
-  {'client', 'mac', 'allsrv'}
-tesso:
-  {'client', 'win', 'allsrv'}
-tessoarch:
-  {'client', 'arch', 'allsrv'}
-jorogumo:
-  {'server', 'arch', 'allsrv', color: 'yellow'}

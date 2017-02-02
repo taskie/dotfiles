@@ -1,0 +1,14 @@
+# Basic Settings
+
+set autoindent
+set tabsize 4
+set mouse
+set nowrap
+set softwrap
+set smooth
+set morespace
+set cut
+set multibuffer
+
+# Syntax Highlighting
+include "/usr{{if .bsd}}/local{{end}}/share/nano/*.nanorc"

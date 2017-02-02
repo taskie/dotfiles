@@ -1,0 +1,5 @@
+escape ^Tt
+hardstatus alwayslastline "[%H] %`%-w%{=b bw}%n:%t%{-}%+w%{-}"
+term xterm-256color
+altscreen on
+startup_message off

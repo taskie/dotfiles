@@ -4,11 +4,11 @@
 
 'dst/.config/peco/config.json':
   dir: 'etc'
-  pat: '^peco(?:_gtp)?.config.json$'
+  pat: '^peco(_.+?)?.config.json$'
 
 'dst/.gdbinit':
   dir: 'etc'
-  pat: '^gdbinit$'
+  pat: '^gdbinit(_.+)?$'
 
 'dst/.gitconfig':
   dir: 'gitconfig.d'
@@ -16,23 +16,23 @@
 
 'dst/.gitignore':
   dir: 'etc'
-  pat: '^gitignore$'
+  pat: '^gitignore(_.+)?$'
 
 'dst/.gvimrc':
   dir: 'etc'
-  pat: '^gvimrc$'
+  pat: '^gvimrc(_.+)?$'
 
 'dst/.nanorc':
   dir: 'etc'
-  pat: '^nanorc(?:_gtp)?$'
+  pat: '^nanorc(_.+)$'
 
 'dst/.npmrc':
   dir: 'etc'
-  pat: '^npmrc$'
+  pat: '^npmrc(_.+)?'
 
 'dst/.screenrc':
   dir: 'etc'
-  pat: '^screenrc$'
+  pat: '^screenrc(_.+)?'
 
 'dst/.ssh/config':
   dir: 'ssh.config.d'
@@ -52,4 +52,4 @@
 
 'dst/.xstow.ini':
   dir: 'etc'
-  pat: '^xstow.ini$'
+  pat: '^xstow(_.+?)?.ini$'
