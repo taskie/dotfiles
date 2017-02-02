@@ -20,6 +20,11 @@ do
     esac
 done
 
+if [ ! -f entry.yml ]; then
+    echo "entry.yml not found."
+    exit 1
+fi
+
 if [ ! -f bin/polkadot ]; then
     echo -e "\e[1mbin/polkadot not found.\e[0m"
     echo "please input target (linux_amd64, linux_386, linux_arm, darwin_amd64, windows_amd64)"
