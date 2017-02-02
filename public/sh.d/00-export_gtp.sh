@@ -6,4 +6,4 @@ export KCODE=u
 export TERM=screen-256color
 export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8
 export PATH="{{.dotfiles}}/bin:$PATH"
-export FILTER=fzf
+export FILTER="{{if .fzf}}fzf-tmux{{else if .peco}}peco{{end}}"

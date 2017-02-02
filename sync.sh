@@ -53,6 +53,14 @@ fi
 
 bin/polkadot ./entry.yml public/ private/ local/
 
+rm_fi() {
+    if [ -n "$FORCE" ]; then
+        rm -f $@
+    else
+        rm -i $@
+    fi
+}
+
 if [ -n "$LINK" ]; then
     for file in $(find dst)
     do
@@ -65,15 +73,8 @@ if [ -n "$LINK" ]; then
         if [ -d "$src" ]; then
             mkdir -p "$dst"
         elif [ -f "$src" ]; then
-            if [ -f "$dst" ]; then
-                if [ -n "$FORCE" ]; then
-                    rm -f "$dst"
-                else
-                    rm -i "$dst"
-                fi
-            fi
+            rm_fi "$dst"
             ln -s "$src" "$dst"
         fi
-
     done
 fi
