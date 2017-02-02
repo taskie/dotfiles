@@ -15,9 +15,9 @@ default:
   {'private', 'emacsd'}
 
 client:
-  {'default', color: 'white'}
+  {color: 'white'}
 server:
-  {'default', color: 'black'}
+  {color: 'black'}
 
 ubume:
   {'server', 'ubuntu', 'allsrv', color: 'magenta'}
