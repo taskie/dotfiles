@@ -21,8 +21,8 @@ do
 done
 
 if [ ! -f bin/polkadot ]; then
-    echo "bin/polkadot not found."
-    echo "please input target (linux-amd64, linux-386, linux-arm, darwin-amd64, windows-amd64)"
+    echo -e "\e[1mbin/polkadot not found.\e[0m"
+    echo "please input target (linux_amd64, linux_386, linux_arm, darwin_amd64, windows_amd64)"
     echo -n "> "
     read TARGET
     if [ "$TARGET" == windows-amd64 ]; then
@@ -31,8 +31,13 @@ if [ ! -f bin/polkadot ]; then
     if [ -z "$TARGET" ]; then
         exit 1
     fi
-    curl -L -o bin/polkadot "https://github.com/taskie/polkadot/releases/download/v0.0.1/polkadot-0.0.1-$TARGET"
+    curl -L -o bin/polkadot "https://github.com/taskie/polkadot/releases/download/v0.0.2a/polkadot-0.0.2a-$TARGET"
     chmod u+x bin/polkadot
+    echo "polkadot version"
+    if ! bin/polkadot -V; then
+        rm -f bin/polkadot
+        exit 1
+    fi
 fi
 
 if [ -z "$NO_PULL" ]; then
