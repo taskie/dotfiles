@@ -38,8 +38,9 @@
 ;;; メニューバー等非表示
 (unless window-system
   (menu-bar-mode -1))
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+(when window-system
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1))
 
 ;;; 日付・時刻表示
 ;;; （全角文字が右端に来ないよう英語表記で）

@@ -28,7 +28,7 @@
 
       ;; helm-c-yasnippet
       helm-ls-git
-      helm-migemo
+      ;; helm-migemo
       helm-descbinds
 
       flycheck
