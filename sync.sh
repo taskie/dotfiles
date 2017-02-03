@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
+syncshsum=$(sha512sum $0)
+
 NO_PULL=
 LINK=
 FORCE=
@@ -50,6 +52,11 @@ if [ -z "$NO_PULL" ]; then
     git submodule init
     git submodule sync
     git submodule update
+    if ! echo "$syncshsum" | sha512sum -c > /dev/null; then
+       echo "sync.sh updated."
+       echo "please ./sync.sh again."
+       exit 1
+    fi
     echo
 fi
 
