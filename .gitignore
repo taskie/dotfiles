@@ -3,6 +3,3 @@ local/*
 distribute/*
 bin/polkadot
 entry.yml
-
-!local/.gitkeep
-!distribute/.gitkeep
