@@ -8,6 +8,9 @@
   type: 'exec'
 'go':
   type: 'exec'
+'home':
+  type: 'env'
+  path: 'HOME'
 'neobundle':
   type: 'dir'
   path: '~/.vim/bundle/neobundle.vim'
