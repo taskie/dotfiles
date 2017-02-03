@@ -38,6 +38,7 @@ if [ ! -f bin/polkadot ]; then
     if [ -z "$TARGET" ]; then
         exit 1
     fi
+    mkdir -p bin
     curl -L -o bin/polkadot "https://github.com/taskie/polkadot/releases/download/v0.0.2a/polkadot-0.0.2a-$TARGET"
     chmod u+x bin/polkadot
     echo "polkadot version"
