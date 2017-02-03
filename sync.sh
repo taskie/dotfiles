@@ -64,14 +64,17 @@ fi
 bin/polkadot ./entry.yml public/ private/ local/
 
 rm_fi() {
-    if [ -n "$FORCE" ]; then
-        rm -f $@
-    else
-        rm -i $@
+    if [ -f "$dst" ]; then
+        if [ -n "$FORCE" ]; then
+            rm -f $@
+        else
+            rm -i $@
+        fi
     fi
 }
 
 if [ -n "$LINK" ]; then
+    echo
     for file in $(find distribute)
     do
         if [ "$file" == "distribute" -o "$file" == "distribute/.gitkeep" ]; then
@@ -81,13 +84,10 @@ if [ -n "$LINK" ]; then
         dst="$HOME/${file##distribute/}"
         echo "$src -> $dst"
         if [ -d "$src" ]; then
+            rm_fi "$dst"
             mkdir -p "$dst"
         elif [ -f "$src" ]; then
-            if [ ! -e "$dst" ]; then
-                rm -f "$dst"
-            else
-                rm_fi "$dst"
-            fi
+            rm_fi "$dst"
             ln -s "$src" "$dst"
         fi
     done

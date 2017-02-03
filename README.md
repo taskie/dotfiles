@@ -2,14 +2,14 @@
 
 ## dependency
 
-* polkadot (https://github.com/taskie/polkadot)
+* polkadot (https://github.com/taskie/polkadot, downloaded automatically in sync.sh)
 * GNU bash
 * git (obvious)
 
 ## usage
 
-1. `git clone <private repo> private`
-2. edit entry.yml
+1. `git clone <private repo> private` if you have
+2. edit entry.yml or `echo '{}' > entry.yml`
 3. `./sync.sh`
 
 ## usage (for me...)
