@@ -82,13 +82,18 @@ if [ -n "$LINK" ]; then
         fi
         src="$(pwd)/$file"
         dst="$HOME/${file##distribute/}"
-        echo "$src -> $dst"
         if [ -d "$src" ]; then
+            echo "mkdir -p $dst"
             rm_fi "$dst"
             mkdir -p "$dst"
-        elif [ -f "$src" ]; then
+        elif [ -s "$src" ]; then
+            echo "ln -s $src $dst"
             rm_fi "$dst"
             ln -s "$src" "$dst"
+            if [ $(basename $(dirname "$dst")) == "bin" ]; then
+                echo "chmod u+x $dst"
+                chmod u+x "$dst"
+            fi
         fi
     done
 fi

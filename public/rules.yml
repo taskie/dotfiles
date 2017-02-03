@@ -57,3 +57,11 @@
 'distribute/.emacs.d/init.el':
   dir: 'emacs.d/init.d'
   pat: '\.el$'
+
+'distribute/.local/bin/goxb':
+  dir: 'bin'
+  pat: '^goxb_go$'
+
+'distribute/.local/bin/brug':
+  dir: 'bin'
+  pat: '^brug_mac$'

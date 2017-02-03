@@ -1,1 +1,1 @@
-alias xstow="xstow -v -t $HOME/local"
+alias xstow="xstow -v -t $HOME/.local"
