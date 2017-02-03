@@ -9,43 +9,48 @@
 
       anzu
       company
-      ;; elscreen
-      evil
-      foreign-regexp
       git-gutter+
-      ;; git-gutter-fringe+
       helm
-      ;; init-loader
       magit
-      ;; migemo
       popwin
       recentf-ext
       sequential-command
-      tabbar
       undo-tree
       volatile-highlights
+
+      markdown-mode
+
+      {{if .allplugins}}
+      elscreen
+      evil
+      foreign-regexp
+      migemo
+      tabbar
       ;; yasnippet
 
       ;; helm-c-yasnippet
-      helm-ls-git
-      ;; helm-migemo
       helm-descbinds
+      helm-migemo
+      helm-ls-git
 
       flycheck
 
-      js2-mode
       go-mode
-      rust-mode
-      markdown-mode
+      js2-mode
       nginx-mode
       php-mode
-      ;; sql-mode
+      rust-mode
+      sql-mode
+      toml-mode
       web-mode
       yaml-mode
 
-      ;; solarized-theme
+      solarized-theme
+      {{end}}
 
-      ;; osx-pseudo-daemon
+      {{if .mac}}
+      osx-pseudo-daemon
+      {{end}}
       ))
 
   (let ((not-installed (cl-loop for x in installing-package-list
