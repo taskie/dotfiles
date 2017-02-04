@@ -4,9 +4,11 @@
 
 (add-hook 'rust-mode-hook
           '(lambda ()
-             (racer-activate)
-             (local-set-key (kbd "M-.") #'racer-find-definition)
-             (local-set-key (kbd "TAB") #'racer-complete-or-indent)))
+             (when (featurep 'racer)
+               (racer-activate)
+               (local-set-key (kbd "M-.") #'racer-find-definition)
+               ;; (local-set-key (kbd "TAB") #'racer-complete-or-indent)
+               )))
 
 (when (require 'company-racer nil t)
   (with-eval-after-load 'company
