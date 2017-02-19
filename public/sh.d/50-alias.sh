@@ -25,4 +25,6 @@ alias td='tmux detach'
 alias sudx='sudo '
 alias sude="sudo $EDITOR"
 
-alias wgett='wget --trust-server-names'
+alias sctl='sudo systemctl'
+alias uctl='systemctl --user'
+
