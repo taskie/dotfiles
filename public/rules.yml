@@ -14,10 +14,6 @@
   dir: 'gitconfig.d'
   pat: '\.conf$'
 
-'distribute/.gitignore':
-  dir: 'etc'
-  pat: '^gitignore(_.+)?$'
-
 'distribute/.gvimrc':
   dir: 'etc'
   pat: '^gvimrc(_.+)?$'
