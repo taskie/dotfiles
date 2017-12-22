@@ -32,6 +32,7 @@
       helm-descbinds
       helm-migemo
       helm-ls-git
+      swiper-helm
 
       flycheck
 
