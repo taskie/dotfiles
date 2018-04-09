@@ -1,5 +1,5 @@
-(when (require 'typescript nil t)
-  (add-to-list 'auto-mode-alist '("\\.ts$" . typescript-mode))
+(when (require 'typescript-mode nil t)
+  (add-to-list 'auto-mode-alist '("\\.ts[x]$" . typescript-mode))
 
   (add-to-list 'exec-path "/usr/local/share/npm/bin")
   ;; (require 'tss)
