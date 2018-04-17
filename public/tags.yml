@@ -6,6 +6,8 @@ freebsd:
   {'bsd'}
 ubuntu:
   {'linux', 'aptitude'}
+debian:
+  {'linux', 'aptitude'}
 centos:
   {'linux', 'yum'}
 arch:
