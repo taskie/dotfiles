@@ -1,4 +1,4 @@
-## zsh, tmux, vimで構築する快適なCUI環境 1/3 「zsh」編 - ナレッジエース 
+## zsh, tmux, vimで構築する快適なCUI環境 1/3 「zsh」編 - ナレッジエース
 ## http://n.blueblack.net/articles/2012-07-20_03_comfortable_cui_environment_zsh/
 
 ## bash -> zsh 移行レポート - おもてなしの空間
@@ -80,8 +80,8 @@ bindkey "^[[Z" reverse-menu-complete
 ### history
 
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=1000000
+SAVEHIST=1000000
 
 ## zsh の開始, 終了時刻をヒストリファイルに書き込む
 setopt extended_history
