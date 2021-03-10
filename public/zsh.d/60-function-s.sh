@@ -21,15 +21,23 @@ function s_abbrev() {
     fi
 }
 
-function s() {
-    local s_result
+vcs_status () {
     if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = 'true' ]; then
-        echo
         echo -e "\e[0;33m--- git status ---\e[0m"
         git status -sb
     elif hg root >/dev/null 2>&1; then
-        echo
         echo -e "\e[0;33m--- hg status ---\e[0m"
         hg status
+    elif svn info >/dev/null 2>&1; then
+        echo -e "\e[0;33m--- svn status ---\e[0m"
+        svn status
+    elif [ -d CVS ]; then
+        echo -e "\e[0;33m--- cvs status ---\e[0m"
+        cvs -q -n update
     fi
+}
+
+s () {
+    echo
+    vcs_status "$@"
 }
