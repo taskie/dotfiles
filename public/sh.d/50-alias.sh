@@ -18,4 +18,4 @@ alias sudx='sudo '
 alias sctl='sudo systemctl'
 alias uctl='systemctl --user'
 
-alias b='bat -Pp'
+alias b='bat -p'
