@@ -1,7 +1,7 @@
 cdq () {
-    gh_dir="$(ghq list --full-path | fzf -q "$*")"
-    if [ -d "$gh_dir" ]; then
-        cd "$gh_dir"
+    cdq_dir="$(ghq list --full-path | "$FILTER" -q "$*")"
+    if [ ! -d "$cdq_dir" ]; then
+        return 1
     fi
-    return 1
+    cd "$cdq_dir"
 }
