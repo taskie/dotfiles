@@ -8,6 +8,8 @@
   type: 'exec'
 'go':
   type: 'exec'
+'delta':
+  type: 'exec'
 'home':
   type: 'env'
   path: 'HOME'
