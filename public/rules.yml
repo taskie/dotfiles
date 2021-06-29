@@ -10,8 +10,8 @@
   dir: 'etc'
   pat: '^gdbinit(_.+)?$'
 
-'distribute/.gitconfig':
-  dir: 'gitconfig.d'
+'distribute/.config/git/config':
+  dir: 'git/config.d'
   pat: '\.conf$'
 
 'distribute/.gvimrc':
