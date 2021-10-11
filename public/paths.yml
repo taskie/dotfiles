@@ -10,6 +10,8 @@
   type: 'exec'
 'delta':
   type: 'exec'
+'direnv':
+  type: 'exec'
 'home':
   type: 'env'
   path: 'HOME'
