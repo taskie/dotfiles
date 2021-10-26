@@ -5,3 +5,5 @@ cdq () {
     fi
     cd "$cdq_dir"
 }
+
+alias q=cdq

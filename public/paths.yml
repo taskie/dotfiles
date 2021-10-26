@@ -12,6 +12,8 @@
   type: 'exec'
 'direnv':
   type: 'exec'
+'ghq':
+  type: 'exec'
 'home':
   type: 'env'
   path: 'HOME'
