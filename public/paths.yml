@@ -14,6 +14,8 @@
   type: 'exec'
 'ghq':
   type: 'exec'
+'exa':
+  type: 'exec'
 'home':
   type: 'env'
   path: 'HOME'
