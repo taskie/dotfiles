@@ -16,6 +16,10 @@
   type: 'exec'
 'exa':
   type: 'exec'
+'ag':
+  type: 'exec'
+'rg':
+  type: 'exec'
 'home':
   type: 'env'
   path: 'HOME'
