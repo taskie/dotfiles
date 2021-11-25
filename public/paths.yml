@@ -20,6 +20,8 @@
   type: 'exec'
 'rg':
   type: 'exec'
+'fd':
+  type: 'exec'
 'home':
   type: 'env'
   path: 'HOME'
