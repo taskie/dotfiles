@@ -1,6 +1,6 @@
 'distribute/.bashrc':
   dirs: ['sh.d', 'bash.d']
-  pat: '\.sh$'
+  pat: '\.(?:ba)?sh$'
 
 'distribute/.config/peco/config.json':
   dir: 'etc'
@@ -48,7 +48,7 @@
 
 'distribute/.zshrc':
   dirs: ['sh.d', 'zsh.d']
-  pat: '\.sh$'
+  pat: '\.z?sh$'
 
 'distribute/.xstow.ini':
   dir: 'etc'
