@@ -41,11 +41,20 @@ if [ ! -f entry.yml ]; then
     exit 1
 fi
 
+POLKADOT="${POLKADOT:-}"
 POLKADOT_VERSION=0.0.3
 OS="$(uname)"
 ARCH="$(uname -m)"
 
-if [ ! -f bin/polkadot ]; then
+if [ -z "$POLKADOT" ]; then
+    if type polkadot >/dev/null 2>&1; then
+        POLKADOT=polkadot
+    else
+        POLKADOT=bin/polkadot
+    fi
+fi
+
+if [ "$POLKADOT" = bin/polkadot ] && [ ! -f bin/polkadot ]; then
     log "bin/polkadot not found."
     case "$OS" in
         Linux|Darwin|Windows)
@@ -53,7 +62,7 @@ if [ ! -f bin/polkadot ]; then
         MSYS_NT*|MINGW32_NT*)
             OS=Windows ;;
         *)
-            echo -n 'please input os (Linux, Darwin, Windows)> ' >&2
+            printf 'please input os (Linux, Darwin, Windows)> ' >&2
             read -r OS ;;
     esac
     [ -n "$OS" ] || log_fatal "please specify os"
@@ -63,7 +72,7 @@ if [ ! -f bin/polkadot ]; then
         amd64)
             ARCH=x86_64 ;;
         *)
-            echo 'please input arch (x86_64, arm64, i386)> ' >&2
+            printf 'please input arch (x86_64, arm64, i386)> ' >&2
             read -r ARCH ;;
     esac
     [ -n "$ARCH" ] || log_fatal "please specify arch"
@@ -109,7 +118,7 @@ if [ -x private.sh ]; then
     fi
 fi
 
-bin/polkadot ./entry.yml public/ private/ local/
+"$POLKADOT" ./entry.yml public/ private/ local/
 
 rm_fi() {
     if [ -f "$dst" ]; then
