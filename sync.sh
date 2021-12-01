@@ -27,25 +27,53 @@ if [ ! -f entry.yml ]; then
     exit 1
 fi
 
+POLKADOT_VERSION=0.0.3
+OS="$(uname)"
+ARCH="$(uname -m)"
+
 if [ ! -f bin/polkadot ]; then
     echo -e "\e[1mbin/polkadot not found.\e[0m"
-    echo "please input target (linux_amd64, linux_386, linux_arm, darwin_amd64, windows_amd64)"
-    echo -n "> "
-    read TARGET
-    if [ "$TARGET" == windows-amd64 ]; then
-        TARGET=windows-amd64.exe
-    fi
-    if [ -z "$TARGET" ]; then
+    case "$OS" in
+        Linux|Darwin|Windows)
+            : ;;
+        MSYS_NT*|MINGW32_NT*)
+            OS=Windows ;;
+        *)
+            echo -n 'please input os (Linux, Darwin, Windows)> '
+            read OS ;;
+    esac
+    if [ -z "$OS" ]; then
         exit 1
     fi
-    mkdir -p bin
-    curl -L -o bin/polkadot "https://github.com/taskie/polkadot/releases/download/v0.0.2a/polkadot-0.0.2a-$TARGET"
+    case "$ARCH" in
+        x86_64|arm64|i386)
+            : ;;
+        amd64)
+            ARCH=x86_64 ;;
+        *)
+            echo 'please input arch (x86_64, arm64, i386)> '
+            read ARCH ;;
+    esac
+    if [ -z "$ARCH" ]; then
+        exit 1
+    fi
+    mkdir -p tmp bin
+    ARCHIVE_NAME="polkadot_${POLKADOT_VERSION}_${OS}_${ARCH}.tar.gz"
+    URL="https://github.com/taskie/polkadot/releases/download/v${POLKADOT_VERSION}/${ARCHIVE_NAME}"
+    echo "downloading ${URL}"
+    curl -L -o "tmp/${ARCHIVE_NAME}" "$URL"
+    EXE_NAME=polkadot
+    if [ "$OS" = Windows ]; then
+        EXE_NAME=polkadot.exe
+    fi
+    tar zxvf "tmp/${ARCHIVE_NAME}" -C bin/ "$EXE_NAME"
     chmod u+x bin/polkadot
     echo "polkadot version"
     if ! bin/polkadot -V; then
         rm -f bin/polkadot
         exit 1
     fi
+    rm -f "tmp/${ARCHIVE_NAME}"
 fi
 
 if [ -z "$NO_PULL" ]; then
