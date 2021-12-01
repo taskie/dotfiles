@@ -6,6 +6,7 @@ syncshsum="$(sha512sum "$0")"
 NO_PULL=
 LINK=
 FORCE=
+PULL_SUBMODULES=
 
 println () {
     printf '%s\n' "$@"
@@ -20,7 +21,7 @@ log_fatal () {
     exit 1
 }
 
-while getopts fln OPT; do
+while getopts flns OPT; do
     case "$OPT" in
         f)
             FORCE=1 ;;
@@ -28,6 +29,8 @@ while getopts fln OPT; do
             LINK=1 ;;
         n)
             NO_PULL=1 ;;
+        s)
+            PULL_SUBMODULES=1 ;;
         *)
             log_fatal "illegal flag: ${OPT}" ;;
     esac
@@ -88,6 +91,9 @@ if [ -z "$NO_PULL" ]; then
     git submodule init
     git submodule sync
     git submodule update
+    if [ -n "$PULL_SUBMODULES" ]; then
+        git submodule foreach git pull origin master
+    fi
     if ! println "$syncshsum" | sha512sum -c > /dev/null; then
         log "sync.sh was updated."
         log "please ./sync.sh again."
