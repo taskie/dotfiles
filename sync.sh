@@ -1,29 +1,40 @@
 #!/usr/bin/env bash
 set -eu
 
-syncshsum=$(sha512sum $0)
+syncshsum="$(sha512sum "$0")"
 
 NO_PULL=
 LINK=
 FORCE=
 
-while getopts fln OPT
-do
-    case $OPT in
+println () {
+    printf '%s\n' "$@"
+}
+
+log () {
+    println "$*" >&2
+}
+
+log_fatal () {
+    log "$*"
+    exit 1
+}
+
+while getopts fln OPT; do
+    case "$OPT" in
         f)
-            FORCE=1
-            ;;
+            FORCE=1 ;;
         l)
-            LINK=1
-            ;;
+            LINK=1 ;;
         n)
-            NO_PULL=1
-            ;;
+            NO_PULL=1 ;;
+        *)
+            log_fatal "illegal flag: ${OPT}" ;;
     esac
 done
 
 if [ ! -f entry.yml ]; then
-    echo "entry.yml not found."
+    log "entry.yml not found."
     exit 1
 fi
 
@@ -32,46 +43,42 @@ OS="$(uname)"
 ARCH="$(uname -m)"
 
 if [ ! -f bin/polkadot ]; then
-    echo -e "\e[1mbin/polkadot not found.\e[0m"
+    log "bin/polkadot not found."
     case "$OS" in
         Linux|Darwin|Windows)
             : ;;
         MSYS_NT*|MINGW32_NT*)
             OS=Windows ;;
         *)
-            echo -n 'please input os (Linux, Darwin, Windows)> '
-            read OS ;;
+            echo -n 'please input os (Linux, Darwin, Windows)> ' >&2
+            read -r OS ;;
     esac
-    if [ -z "$OS" ]; then
-        exit 1
-    fi
+    [ -n "$OS" ] || log_fatal "please specify os"
     case "$ARCH" in
         x86_64|arm64|i386)
             : ;;
         amd64)
             ARCH=x86_64 ;;
         *)
-            echo 'please input arch (x86_64, arm64, i386)> '
-            read ARCH ;;
+            echo 'please input arch (x86_64, arm64, i386)> ' >&2
+            read -r ARCH ;;
     esac
-    if [ -z "$ARCH" ]; then
-        exit 1
-    fi
+    [ -n "$ARCH" ] || log_fatal "please specify arch"
     mkdir -p tmp bin
     ARCHIVE_NAME="polkadot_${POLKADOT_VERSION}_${OS}_${ARCH}.tar.gz"
-    URL="https://github.com/taskie/polkadot/releases/download/v${POLKADOT_VERSION}/${ARCHIVE_NAME}"
-    echo "downloading ${URL}"
-    curl -L -o "tmp/${ARCHIVE_NAME}" "$URL"
+    POLKADOT_URL="https://github.com/taskie/polkadot/releases/download/v${POLKADOT_VERSION}/${ARCHIVE_NAME}"
+    log "downloading ${POLKADOT_URL}"
+    curl -L -o "tmp/${ARCHIVE_NAME}" "$POLKADOT_URL"
     EXE_NAME=polkadot
     if [ "$OS" = Windows ]; then
         EXE_NAME=polkadot.exe
     fi
     tar zxvf "tmp/${ARCHIVE_NAME}" -C bin/ "$EXE_NAME"
     chmod u+x bin/polkadot
-    echo "polkadot version"
+    log 'checking polkadot version...'
     if ! bin/polkadot -V; then
         rm -f bin/polkadot
-        exit 1
+        log_fatal 'cannot launch polkadot'
     fi
     rm -f "tmp/${ARCHIVE_NAME}"
 fi
@@ -81,12 +88,11 @@ if [ -z "$NO_PULL" ]; then
     git submodule init
     git submodule sync
     git submodule update
-    if ! echo "$syncshsum" | sha512sum -c > /dev/null; then
-       echo "sync.sh updated."
-       echo "please ./sync.sh again."
-       exit 1
+    if ! println "$syncshsum" | sha512sum -c > /dev/null; then
+        log "sync.sh was updated."
+        log "please ./sync.sh again."
+        exit 1
     fi
-    echo
 fi
 
 if [ -x private.sh ]; then
@@ -102,32 +108,30 @@ bin/polkadot ./entry.yml public/ private/ local/
 rm_fi() {
     if [ -f "$dst" ]; then
         if [ -n "$FORCE" ]; then
-            rm -f $@
+            rm -f "$@"
         else
-            rm -i $@
+            rm -i "$@"
         fi
     fi
 }
 
 if [ -n "$LINK" ]; then
-    echo
-    for file in $(find distribute)
-    do
-        if [ "$file" == "distribute" -o "$file" == "distribute/.gitkeep" ]; then
+    find distribute | while read -r file; do
+        if [ "$file" == "distribute" ] || [ "$file" == "distribute/.gitkeep" ]; then
             continue
         fi
         src="$(pwd)/$file"
         dst="$HOME/${file##distribute/}"
         if [ -d "$src" ]; then
-            echo "mkdir -p $dst"
+            log "mkdir -p $dst"
             rm_fi "$dst"
             mkdir -p "$dst"
         elif [ -s "$src" ]; then
-            echo "ln -s $src $dst"
+            log "ln -s $src $dst"
             rm_fi "$dst"
             ln -s "$src" "$dst"
-            if [ $(basename $(dirname "$dst")) == "bin" ]; then
-                echo "chmod u+x $dst"
+            if [ "$(basename "$(dirname "$dst")")" == bin ]; then
+                log "chmod u+x $dst"
                 chmod u+x "$dst"
             fi
         fi
