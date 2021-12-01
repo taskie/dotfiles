@@ -1,5 +1,5 @@
-sude () {
-    file="$(realpath $1)"
+sude() {
+    _sude_file="$(realpath "$1")"
     shift
-    emacsclient -nw "/sudo::$1"
+    emacsclient -nw "/sudo::${_sude_file}"
 }

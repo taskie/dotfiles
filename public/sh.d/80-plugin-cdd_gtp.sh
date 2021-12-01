@@ -1,1 +1,1 @@
-source "{{.dotfiles}}/submodules/cdd/cdd"
+. "{{.dotfiles}}/submodules/cdd/cdd"

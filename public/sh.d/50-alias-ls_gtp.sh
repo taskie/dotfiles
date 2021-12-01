@@ -20,11 +20,11 @@ ls_abbrev() {
     ls_lines="$(echo "$ls_result" | wc -l | tr -d ' ')"
 
     if [ "$ls_lines" -gt 10 ]; then
-	echo "$ls_result" | head -n 5
-	echo '...'
-	echo "$ls_result" | tail -n 5
-	echo "$(command ls -1 -A | wc -l | tr -d ' ') files exist"
+        echo "$ls_result" | head -n 5
+        echo '...'
+        echo "$ls_result" | tail -n 5
+        echo "$(command ls -1 -A | wc -l | tr -d ' ') files exist"
     else
-	echo "$ls_result"
+        echo "$ls_result"
     fi
 }
