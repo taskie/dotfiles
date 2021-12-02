@@ -36,8 +36,3 @@ vcs_status () {
         cvs -q -n update
     fi
 }
-
-s () {
-    echo
-    vcs_status "$@"
-}

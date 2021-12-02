@@ -32,5 +32,5 @@ function rgf() {
     printf '%s\n' "$list" | xargs -r ${=EDITOR}
   fi
 }
-alias z=rgf
+alias s=rgf
 {{end}}
