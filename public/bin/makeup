@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+found="$(findup . -name Makefile -o -name GNUmakefile | head -n 1)"
+if [ -n "$found" ]; then
+    make -C "$(dirname "$found")" "$@"
+else
+    exit 1
+fi

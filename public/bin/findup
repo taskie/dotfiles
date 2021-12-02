@@ -1,0 +1,43 @@
+#!/bin/sh
+set -eu
+
+die () {
+    printf "$(basename "$0"): %s\n" "$*" >&2
+    exit 1
+}
+
+get_device () {
+    stat -c '%d' "$1"
+}
+
+if [ $# -eq 0 ]; then
+    die 'base path must be specified'
+fi
+
+dir="$1"
+shift
+
+if [ $# -eq 0 ]; then
+    die 'options for `find` must be specified'
+fi
+
+cur="$(realpath "$dir")"
+current_device="$(get_device "$cur")"
+
+while true; do
+    found="$(find "$cur" -mindepth 1 -maxdepth 1 "$@")"
+    if [ -n "$found" ]; then
+        printf "%s\n" "$found"
+        exit 0
+    fi
+    if [ "$cur" = / ]; then
+        break
+    fi
+    cur="$(dirname "$cur")"
+    next_device="$(get_device "$cur")"
+    if [ "$current_device" != "$next_device" ]; then
+        die 'stopping at filesystem boundary'
+    fi
+done
+
+exit 1

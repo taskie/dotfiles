@@ -65,3 +65,11 @@
 'distribute/.local/bin/brug':
   dir: 'bin'
   pat: '^brug_mac$'
+
+'distribute/.local/bin/findup':
+  dir: 'bin'
+  pat: '^findup$'
+
+'distribute/.local/bin/makeup':
+  dir: 'bin'
+  pat: '^makeup$'
