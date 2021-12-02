@@ -1,15 +1,22 @@
+;;; テーマ（背景なし）
+(custom-set-faces
+ '(default ((t (:background "unspecified-bg" :foreground nil))))
+ '(highlight ((t (:background "#222" :foreground nil))))
+ '(show-paren-match ((t (:background "#666" :foreground nil)))))
+
+(when (fboundp 'load-theme)
+  (load-theme 'misterioso t))
+
 ;;; 行列番号表示
 (line-number-mode 1)
 (column-number-mode 1)
 
 ;;; 行強調表示
 (global-hl-line-mode 1)
-; (set-face-background 'hl-line "#cfc")
 
 ;;; 対括弧強調表示
 (show-paren-mode t)
 (setq show-paren-delay 0)
-; (set-face-background 'show-paren-match-face "#aaf")
 
 ;;; 行番号表示
 ; (global-linum-mode t)
@@ -18,10 +25,6 @@
 ;;; 起動画面
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message "")
-
-; (when (fboundp 'load-theme)
-;   (load-theme 'whiteboard t))
-;;; theme
 
 (defun aps-solarized ()
   (interactive)
