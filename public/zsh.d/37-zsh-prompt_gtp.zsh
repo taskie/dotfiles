@@ -10,7 +10,7 @@ setopt prompt_subst
 # left prompt
 
 PROMPT='
-%F{{"{"}}{{.color}}{{"}"}}[ %D %* ]%f${last_status_}
+%F{{"{"}}{{.color}}{{"}"}}[ %D{%Y-%m-%d %H:%M:%S} ]%f${last_status_}
 %B%K{{"{"}}{{.color}}{{"}"}}%F{black}  %n@%m:%~  %k%f%b
 %F{{"{"}}{{.color}}{{"}"}}%#%f '
 
