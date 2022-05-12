@@ -43,3 +43,6 @@ nvm:
 cargo:
   type: dir
   path: ~/.cargo
+tfenv:
+  type: dir
+  path: ~/.tfenv
