@@ -46,3 +46,6 @@ cargo:
 tfenv:
   type: dir
   path: ~/.tfenv
+poetry:
+  type: dir
+  path: ~/.poetry
