@@ -14,7 +14,7 @@ arch:
   {'linux', 'pacman'}
 
 default:
-  {'private', 'emacsd'}
+  {'private', 'emacsd', prompt: '%#'}
 
 client:
   {color: 'white'}

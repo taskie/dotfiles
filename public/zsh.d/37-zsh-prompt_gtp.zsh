@@ -12,7 +12,7 @@ setopt prompt_subst
 PROMPT='
 %F{{"{"}}{{.color}}{{"}"}}[ %D{%Y-%m-%d %H:%M:%S} ]%f${last_status_}
 %B%K{{"{"}}{{.color}}{{"}"}}%F{black}  %n@%m:%~  %k%f%b
-%F{{"{"}}{{.color}}{{"}"}}%#%f '
+%F{{"{"}}{{.color}}{{"}"}}{{.prompt}}%f '
 
 add-zsh-hook precmd _update_left_prompt
 
