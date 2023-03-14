@@ -1,0 +1,24 @@
+#!/bin/sh
+set -u
+
+PROGRAM_NAME="$(basename "$0")"
+
+usage () {
+    cat <<EOF
+${PROGRAM_NAME}
+
+Usage:
+    ${PROGRAM_NAME} PATTERN REPLACEMENT_TEXT [RG_ARGS...]
+EOF
+}
+
+if [ $# -lt 2 ]; then
+    usage >&2
+    exit 1
+fi
+
+pat="$1"
+rep="$2"
+shift 2
+
+rg -0l "$pat" "$@" | dodx -0 rg "$pat" -r "$rep" -IN --passthru

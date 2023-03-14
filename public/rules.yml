@@ -73,3 +73,7 @@
 'distribute/.local/bin/makeup':
   dir: 'bin'
   pat: '^makeup$'
+
+'distribute/.local/bin/rgdiff':
+  dir: 'bin'
+  pat: '^rgdiff_rg$'
