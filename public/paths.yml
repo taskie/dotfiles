@@ -22,6 +22,8 @@ rg:
   type: exec
 fd:
   type: exec
+pass:
+  type: exec
 home:
   type: env
   path: HOME
