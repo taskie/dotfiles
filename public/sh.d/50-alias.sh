@@ -15,3 +15,5 @@ alias sctl='sudo systemctl'
 alias uctl='systemctl --user'
 
 alias b='bat -p'
+
+alias c='cargo'
