@@ -17,3 +17,5 @@ alias uctl='systemctl --user'
 alias b='bat -p'
 
 alias c='cargo'
+
+alias rgs='rg --sort path'
