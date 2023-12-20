@@ -42,6 +42,9 @@ rbenv:
 nvm:
   type: dir
   path: ~/.nvm
+sdkman:
+  type: dir
+  path: ~/.sdkman
 cargo:
   type: dir
   path: ~/.cargo
