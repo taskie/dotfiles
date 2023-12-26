@@ -27,6 +27,9 @@ pass:
 home:
   type: env
   path: HOME
+goroot:
+  type: env
+  path: GOROOT
 neobundle:
   type: dir
   path: ~/.vim/bundle/neobundle.vim
