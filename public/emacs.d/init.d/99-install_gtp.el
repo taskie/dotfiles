@@ -7,10 +7,15 @@
       cl-lib
       popup
 
+      counsel
+      ivy
+      ivy-hydrax
+      swiper
+      ;; helm
+
       anzu
       company
       git-gutter+
-      helm
       magit
       popwin
       recentf-ext
@@ -29,10 +34,10 @@
       ;; yasnippet
 
       ;; helm-c-yasnippet
-      helm-descbinds
-      helm-migemo
-      helm-ls-git
-      swiper-helm
+      ;; helm-descbinds
+      ;; helm-migemo
+      ;; helm-ls-git
+      ;; swiper-helm
 
       flycheck
 
