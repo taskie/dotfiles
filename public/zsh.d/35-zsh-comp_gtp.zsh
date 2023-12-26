@@ -1,3 +1,7 @@
+if [[ -d ~/.local/share/zsh/site-functions ]]; then
+    fpath=(~/.local/share/zsh/site-functions $fpath)
+fi
+
 # compinit
 
 autoload -Uz compinit
