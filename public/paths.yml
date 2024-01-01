@@ -24,6 +24,8 @@ fd:
   type: exec
 pass:
   type: exec
+systemctl:
+  type: exec
 home:
   type: env
   path: HOME
