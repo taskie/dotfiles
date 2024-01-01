@@ -1,3 +1,4 @@
+# zsh の vcs_info に独自の処理を追加して stash 数とか push していない件数とか何でも表示する - Qiita
 # http://qiita.com/mollifier/items/8d5a627d773758dd8078
 
 autoload -Uz vcs_info
@@ -9,24 +10,42 @@ setopt prompt_subst
 
 # left prompt
 
-PROMPT='
-%F{{"{"}}{{.color}}{{"}"}}[ %D{%Y-%m-%d %H:%M:%S} ]%f${last_status_}
+typeset -i _PROMPT_ENABLED=1
+
+_PROMPT_LAST_STATUS=''
+
+_PROMPT_FORMAT='
+%F{{"{"}}{{.color}}{{"}"}}[ %D{%Y-%m-%d %H:%M:%S} ]%f${_PROMPT_LAST_STATUS}
 %B%K{{"{"}}{{.color}}{{"}"}}%F{black}  %n@%m:%~  %k%f%b
 %F{{"{"}}{{.color}}{{"}"}}{{.prompt}}%f '
+
+PROMPT="$_PROMPT_FORMAT"
 
 add-zsh-hook precmd _update_left_prompt
 
 function _update_left_prompt() {
     local st=$?
-    last_status_=''
+    _PROMPT_LAST_STATUS=''
     if (( st != 0 )); then
-	last_status_=" %F{red}($st)%f"
+        _PROMPT_LAST_STATUS=" %F{red}($st)%f"
     fi
 }
 
+function prompt-on() {
+    _PROMPT_ENABLED=1
+    PROMPT="$_PROMPT_FORMAT"
+}
+
+function prompt-off() {
+    _PROMPT_ENABLED=0
+    PROMPT="{{.prompt}} "
+}
+
+# right prompt
+
 # vcs_info 設定
 
-RPROMPT=""
+RPROMPT=''
 
 # 以下の3つのメッセージをエクスポートする
 #   $vcs_info_msg_0_ : 通常メッセージ用 (緑)
@@ -42,158 +61,171 @@ zstyle ':vcs_info:*' actionformats '(%s)-[%b]' '%m' '<!%a>'
 zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
 zstyle ':vcs_info:bzr:*' use-simple true
 
-
-if is-at-least 4.3.10; then
-    # git 用のフォーマット
-    # git のときはステージしているかどうかを表示
-    zstyle ':vcs_info:git:*' formats '(%s)-[%b]' '%c%u %m'
-    zstyle ':vcs_info:git:*' actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
-    zstyle ':vcs_info:git:*' check-for-changes true
-    zstyle ':vcs_info:git:*' stagedstr "+"    # %c で表示する文字列
-    zstyle ':vcs_info:git:*' unstagedstr "-"  # %u で表示する文字列
-fi
+# git 用のフォーマット
+# git のときはステージしているかどうかを表示
+zstyle ':vcs_info:git:*' formats '(%s)-[%b]' '%c%u %m'
+zstyle ':vcs_info:git:*' actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "+"    # %c で表示する文字列
+zstyle ':vcs_info:git:*' unstagedstr "-"  # %u で表示する文字列
 
 # hooks 設定
-if is-at-least 4.3.11; then
-    # git のときはフック関数を設定する
 
-    # formats '(%s)-[%b]' '%c%u %m' , actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
-    # のメッセージを設定する直前のフック関数
-    # 今回の設定の場合はformat の時は2つ, actionformats の時は3つメッセージがあるので
-    # 各関数が最大3回呼び出される。
-    zstyle ':vcs_info:git+set-message:*' hooks \
-	   git-hook-begin \
-	   git-untracked \
-	   git-push-status \
-	   git-nomerge-branch \
-	   git-stash-count
+# git のときはフック関数を設定する
 
-    # フックの最初の関数
-    # git の作業コピーのあるディレクトリのみフック関数を呼び出すようにする
-    # (.git ディレクトリ内にいるときは呼び出さない)
-    # .git ディレクトリ内では git status --porcelain などがエラーになるため
-    function +vi-git-hook-begin() {
-	if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
-	    # 0以外を返すとそれ以降のフック関数は呼び出されない
-	    return 1
-	fi
+# formats '(%s)-[%b]' '%c%u %m' , actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+# のメッセージを設定する直前のフック関数
+# 今回の設定の場合はformat の時は2つ, actionformats の時は3つメッセージがあるので
+# 各関数が最大3回呼び出される。
+zstyle ':vcs_info:git+set-message:*' hooks \
+    git-hook-begin \
+    git-untracked \
+    git-push-status \
+    git-nomerge-branch \
+    git-stash-count
 
-	return 0
-    }
+# フックの最初の関数
+# git の作業コピーのあるディレクトリのみフック関数を呼び出すようにする
+# (.git ディレクトリ内にいるときは呼び出さない)
+# .git ディレクトリ内では git status --porcelain などがエラーになるため
+function +vi-git-hook-begin() {
+    if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
+        # 0以外を返すとそれ以降のフック関数は呼び出されない
+        return 1
+    fi
 
-    # untracked ファイル表示
-    #
-    # untracked ファイル(バージョン管理されていないファイル)がある場合は
-    # unstaged (%u) に ? を表示
-    function +vi-git-untracked() {
-	# zstyle formats, actionformats の2番目のメッセージのみ対象にする
-	if [[ "$1" != "1" ]]; then
-	    return 0
-	fi
+    return 0
+}
 
-	if command git status --porcelain 2> /dev/null \
-		| awk '{print $1}' \
-		| command grep -F '??' > /dev/null 2>&1 ; then
+# untracked ファイル表示
+#
+# untracked ファイル(バージョン管理されていないファイル)がある場合は
+# unstaged (%u) に ? を表示
+function +vi-git-untracked() {
+    # zstyle formats, actionformats の2番目のメッセージのみ対象にする
+    if [[ "$1" != "1" ]]; then
+        return 0
+    fi
 
-	    # unstaged (%u) に追加
-	    hook_com[unstaged]+='?'
-	fi
-    }
+    if command git status --porcelain 2> /dev/null \
+        | awk '{print $1}' \
+        | command grep -F '??' > /dev/null 2>&1; then
 
-    # push していないコミットの件数表示
-    #
-    # リモートリポジトリに push していないコミットの件数を
-    # pN という形式で misc (%m) に表示する
-    function +vi-git-push-status() {
-	# zstyle formats, actionformats の2番目のメッセージのみ対象にする
-	if [[ "$1" != "1" ]]; then
-	    return 0
-	fi
+        # unstaged (%u) に追加
+        hook_com[unstaged]+='?'
+    fi
+}
 
-	if [[ "${hook_com[branch]}" != "master" ]]; then
-	    # master ブランチでない場合は何もしない
-	    return 0
-	fi
+# push していないコミットの件数表示
+#
+# リモートリポジトリに push していないコミットの件数を
+# pN という形式で misc (%m) に表示する
+function +vi-git-push-status() {
+    # zstyle formats, actionformats の2番目のメッセージのみ対象にする
+    if [[ "$1" != "1" ]]; then
+        return 0
+    fi
 
-	# push していないコミット数を取得する
-	local ahead
-	ahead=$(command git rev-list origin/master..master 2>/dev/null \
-		       | wc -l \
-		       | tr -d ' ')
+    if [[ "${hook_com[branch]}" != "master" ]]; then
+        # master ブランチでない場合は何もしない
+        return 0
+    fi
 
-	if [[ "$ahead" -gt 0 ]]; then
-	    # misc (%m) に追加
-	    hook_com[misc]+="(p${ahead})"
-	fi
-    }
+    # push していないコミット数を取得する
+    local ahead
+    ahead=$(
+        command git rev-list origin/master..master 2>/dev/null \
+            | wc -l \
+            | tr -d ' '
+    )
 
-    # マージしていない件数表示
-    #
-    # master 以外のブランチにいる場合に、
-    # 現在のブランチ上でまだ master にマージしていないコミットの件数を
-    # (mN) という形式で misc (%m) に表示
-    function +vi-git-nomerge-branch() {
-	# zstyle formats, actionformats の2番目のメッセージのみ対象にする
-	if [[ "$1" != "1" ]]; then
-	    return 0
-	fi
+    if [[ "$ahead" -gt 0 ]]; then
+        # misc (%m) に追加
+        hook_com[misc]+="(p${ahead})"
+    fi
+}
 
-	if [[ "${hook_com[branch]}" == "master" ]]; then
-	    # master ブランチの場合は何もしない
-	    return 0
-	fi
+# マージしていない件数表示
+#
+# master 以外のブランチにいる場合に、
+# 現在のブランチ上でまだ master にマージしていないコミットの件数を
+# (mN) という形式で misc (%m) に表示
+function +vi-git-nomerge-branch() {
+    # zstyle formats, actionformats の2番目のメッセージのみ対象にする
+    if [[ "$1" != "1" ]]; then
+        return 0
+    fi
 
-	local nomerged
-	nomerged=$(command git rev-list master..${hook_com[branch]} 2>/dev/null | wc -l | tr -d ' ')
+    if [[ "${hook_com[branch]}" == "master" ]]; then
+        # master ブランチの場合は何もしない
+        return 0
+    fi
 
-	if [[ "$nomerged" -gt 0 ]] ; then
-	    # misc (%m) に追加
-	    hook_com[misc]+="(m${nomerged})"
-	fi
-    }
+    local nomerged
+    nomerged=$(command git rev-list master..${hook_com[branch]} 2>/dev/null | wc -l | tr -d ' ')
+
+    if [[ "$nomerged" -gt 0 ]] ; then
+        # misc (%m) に追加
+        hook_com[misc]+="(m${nomerged})"
+    fi
+}
 
 
-    # stash 件数表示
-    #
-    # stash している場合は :SN という形式で misc (%m) に表示
-    function +vi-git-stash-count() {
-	# zstyle formats, actionformats の2番目のメッセージのみ対象にする
-	if [[ "$1" != "1" ]]; then
-	    return 0
-	fi
+# stash 件数表示
+#
+# stash している場合は :SN という形式で misc (%m) に表示
+function +vi-git-stash-count() {
+    # zstyle formats, actionformats の2番目のメッセージのみ対象にする
+    if [[ "$1" != "1" ]]; then
+        return 0
+    fi
 
-	local stash
-	stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
-	if [[ "${stash}" -gt 0 ]]; then
-	    # misc (%m) に追加
-	    hook_com[misc]+=":S${stash}"
-	fi
-    }
+    local stash
+    stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
+    if [[ "${stash}" -gt 0 ]]; then
+        # misc (%m) に追加
+        hook_com[misc]+=":S${stash}"
+    fi
+}
 
-fi
+typeset -i _RPROMPT_ENABLED=1
 
 function _update_vcs_info_msg() {
     local -a messages
     local prompt
 
-    LANG=en_US.UTF-8 vcs_info
+    LANG=C.UTF-8 vcs_info
 
     if [[ -z ${vcs_info_msg_0_} ]]; then
-	# vcs_info で何も取得していない場合はプロンプトを表示しない
-	prompt=""
+        # vcs_info で何も取得していない場合はプロンプトを表示しない
+        prompt=''
     else
-	# vcs_info で情報を取得した場合
-	# $vcs_info_msg_0_ , $vcs_info_msg_1_ , $vcs_info_msg_2_ を
-	# それぞれ緑、黄色、赤で表示する
-	[[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
-	[[ -n "$vcs_info_msg_1_" ]] && messages+=( "%F{yellow}${vcs_info_msg_1_}%f" )
-	[[ -n "$vcs_info_msg_2_" ]] && messages+=( "%F{red}${vcs_info_msg_2_}%f" )
+        # vcs_info で情報を取得した場合
+        # $vcs_info_msg_0_ , $vcs_info_msg_1_ , $vcs_info_msg_2_ を
+        # それぞれ緑、黄色、赤で表示する
+        [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
+        [[ -n "$vcs_info_msg_1_" ]] && messages+=( "%F{yellow}${vcs_info_msg_1_}%f" )
+        [[ -n "$vcs_info_msg_2_" ]] && messages+=( "%F{red}${vcs_info_msg_2_}%f" )
 
-	# 間にスペースを入れて連結する
-	prompt="${(j: :)messages}"
+        # 間にスペースを入れて連結する
+        prompt="${(j: :)messages}"
     fi
 
-    RPROMPT="$prompt"
+    if (( _PROMPT_ENABLED && _RPROMPT_ENABLED )); then
+        RPROMPT="$prompt"
+    else
+        RPROMPT=''
+    fi
+}
+
+function rprompt-on() {
+    _RPROMPT_ENABLED=1
+    _update_vcs_info_msg
+}
+
+function rprompt-off() {
+    _RPROMPT_ENABLED=0
+    RPROMPT=''
 }
 
 add-zsh-hook precmd _update_vcs_info_msg
