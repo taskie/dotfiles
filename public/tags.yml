@@ -1,17 +1,21 @@
 win:
   {'!emacsd'}
+bsd:
+  {'posix'}
 mac:
   {'bsd'}
 freebsd:
   {'bsd'}
+linux:
+  {'posix'}
 ubuntu:
-  {'linux', 'aptitude'}
+  {'linux'}
 debian:
-  {'linux', 'aptitude'}
+  {'linux'}
 centos:
-  {'linux', 'yum'}
+  {'linux'}
 arch:
-  {'linux', 'pacman'}
+  {'linux'}
 
 default:
   {'private', 'emacsd', prompt: '%#'}
