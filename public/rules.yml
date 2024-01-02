@@ -2,10 +2,6 @@
   dirs: ['sh.d', 'bash.d']
   pat: '\.(?:ba)?sh$'
 
-'distribute/.config/peco/config.json':
-  dir: 'etc'
-  pat: '^peco(_.+?)?.config.json$'
-
 'distribute/.gdbinit':
   dir: 'etc'
   pat: '^gdbinit(_.+)?$'

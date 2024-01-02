@@ -1,3 +1,0 @@
-NeoBundleCheck
-call neobundle#end()
-

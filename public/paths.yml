@@ -27,9 +27,6 @@ goroot:
 home:
   - type: env
     name: HOME
-neobundle:
-  - type: dir
-    path: ~/.vim/bundle/neobundle.vim
 nvm:
   - type: dir
     path: ~/.nvm
