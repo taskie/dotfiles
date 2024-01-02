@@ -1,12 +1,13 @@
+# == prompt ==
+
 # zsh の vcs_info に独自の処理を追加して stash 数とか push していない件数とか何でも表示する - Qiita
 # http://qiita.com/mollifier/items/8d5a627d773758dd8078
 
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
-autoload -Uz is-at-least
-autoload -Uz colors
 
-setopt prompt_subst
+setopt NO_promptcr   # 出力の文字列末尾に改行コードが無い場合でも表示
+setopt prompt_subst  # 色を使う
 
 # left prompt
 
@@ -53,7 +54,7 @@ RPROMPT=''
 #   $vcs_info_msg_2_ : エラーメッセージ用 (赤)
 zstyle ':vcs_info:*' max-exports 3
 
-zstyle ':vcs_info:*' enable git svn hg bzr
+zstyle ':vcs_info:*' enable git hg svn bzr cvs
 # 標準のフォーマット(git 以外で使用)
 # misc(%m) は通常は空文字列に置き換えられる
 zstyle ':vcs_info:*' formats '(%s)-[%b]'

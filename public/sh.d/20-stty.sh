@@ -1,1 +1,3 @@
+# === settings ===
+
 stty stop undef
