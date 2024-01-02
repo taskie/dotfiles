@@ -1,61 +1,61 @@
-zsh:
-  type: exec
-peco:
-  type: exec
-fzf:
-  type: exec
-cabal:
-  type: exec
-go:
-  type: exec
-delta:
-  type: exec
-direnv:
-  type: exec
-ghq:
-  type: exec
-exa:
-  type: exec
 ag:
-  type: exec
-rg:
-  type: exec
-fd:
-  type: exec
-pass:
-  type: exec
-systemctl:
-  type: exec
-home:
-  type: env
-  path: HOME
-goroot:
-  type: env
-  path: GOROOT
-neobundle:
-  type: dir
-  path: ~/.vim/bundle/neobundle.vim
-phpenv:
-  type: dir
-  path: ~/.phpenv
-pyenv:
-  type: dir
-  path: ~/.pyenv
-rbenv:
-  type: dir
-  path: ~/.rbenv
-nvm:
-  type: dir
-  path: ~/.nvm
-sdkman:
-  type: dir
-  path: ~/.sdkman
+  - type: exec
+cabal:
+  - type: exec
 cargo:
-  type: dir
-  path: ~/.cargo
-tfenv:
-  type: dir
-  path: ~/.tfenv
+  - type: dir
+    path: ~/.cargo
+delta:
+  - type: exec
+direnv:
+  - type: exec
+exa:
+  - type: exec
+    name: eza
+  - type: exec
+fd:
+  - type: exec
+fzf:
+  - type: exec
+ghq:
+  - type: exec
+go:
+  - type: exec
+goroot:
+  - type: env
+    name: GOROOT
+home:
+  - type: env
+    name: HOME
+neobundle:
+  - type: dir
+    path: ~/.vim/bundle/neobundle.vim
+nvm:
+  - type: dir
+    path: ~/.nvm
+pass:
+  - type: exec
+phpenv:
+  - type: dir
+    path: ~/.phpenv
 poetry:
-  type: dir
-  path: ~/.poetry
+  - type: dir
+    path: ~/.poetry
+pyenv:
+  - type: dir
+    path: ~/.pyenv
+rbenv:
+  - type: dir
+    path: ~/.rbenv
+rg:
+  - type: exec
+sdkman:
+  - type: dir
+    path: ~/.sdkman
+systemctl:
+  - type: exec
+tfenv:
+  - type: dir
+    path: ~/.tfenv
+zsh:
+  - type: exec

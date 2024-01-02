@@ -61,19 +61,24 @@
 'distribute/.local/bin/goxb':
   dir: 'bin'
   pat: '^goxb_go$'
+  mode: 755
 
 'distribute/.local/bin/brug':
   dir: 'bin'
   pat: '^brug_mac$'
+  mode: 755
 
 'distribute/.local/bin/findup':
   dir: 'bin'
   pat: '^findup$'
+  mode: 755
 
 'distribute/.local/bin/makeup':
   dir: 'bin'
   pat: '^makeup$'
+  mode: 755
 
 'distribute/.local/bin/rgdiff':
   dir: 'bin'
   pat: '^rgdiff_rg$'
+  mode: 755

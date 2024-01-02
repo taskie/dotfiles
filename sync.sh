@@ -42,7 +42,7 @@ if [ ! -f entry.yml ]; then
 fi
 
 POLKADOT="${POLKADOT:-}"
-POLKADOT_VERSION=0.0.3
+POLKADOT_VERSION=0.1.0
 OS="$(uname)"
 ARCH="$(uname -m)"
 
