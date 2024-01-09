@@ -57,22 +57,24 @@ fi
 if [ "$POLKADOT" = bin/polkadot ] && [ ! -f bin/polkadot ]; then
     log "bin/polkadot not found."
     case "$OS" in
-        Linux|Darwin|Windows)
-            : ;;
-        MSYS_NT*|MINGW32_NT*)
-            OS=Windows ;;
+        Linux)
+            OS=linux ;;
+        Darwin)
+            OS=darwin ;;
+        Windows|MSYS_NT*|MINGW32_NT*)
+            OS=windows ;;
         *)
-            printf 'please input os (Linux, Darwin, Windows)> ' >&2
+            printf 'please input os (linux, darwin, windows)> ' >&2
             read -r OS ;;
     esac
     [ -n "$OS" ] || log_fatal "please specify os"
     case "$ARCH" in
-        x86_64|arm64|i386)
+        amd64|arm64)
             : ;;
-        amd64)
-            ARCH=x86_64 ;;
+        x86_64)
+            ARCH=amd64 ;;
         *)
-            printf 'please input arch (x86_64, arm64, i386)> ' >&2
+            printf 'please input arch (amd64, arm64)> ' >&2
             read -r ARCH ;;
     esac
     [ -n "$ARCH" ] || log_fatal "please specify arch"
