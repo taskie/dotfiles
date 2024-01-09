@@ -1,0 +1,12 @@
+BoldAsFont=yes
+Locale=C
+Charset=UTF-8
+Font=JetBrains Mono
+FontChoice=Hiragana:2;Katakana:2;Han:2
+Font2=Meiryo
+FontHeight=8
+FontWeight=400
+ThemeFile=nord
+FontSmoothing=default
+Transparency=off
+EmojiPlacement=stretch

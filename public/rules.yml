@@ -18,6 +18,10 @@
   dir: 'etc'
   pat: '^gvimrc(_.+)?$'
 
+'distribute/.minttyrc':
+  dir: 'etc'
+  pat: '^minttyrc(_.+)?$'
+
 'distribute/.nanorc':
   dir: 'etc'
   pat: '^nanorc(_.+)$'
