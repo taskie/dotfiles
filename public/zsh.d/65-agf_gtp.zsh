@@ -41,4 +41,12 @@ function rgf() {
     fi
 }
 alias s=rgf
+
+function rgdelta() {
+    if (( ! $# )); then
+        return 1
+    fi
+    rg --json "$@" | delta
+}
+alias d=rgdelta
 {{end}}
