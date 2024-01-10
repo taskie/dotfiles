@@ -25,7 +25,7 @@ function rgf() {
 {{if .delta}}
     list="$(
         rg -n --json $@ \
-            | delta \
+            | delta --grep-output-type classic \
             | "$FILTER" --ansi --query "$LBUFFER" \
             | awk -F : '{print "+" $2 " " $1}'
     )"
