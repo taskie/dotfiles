@@ -15,8 +15,16 @@ exa:
   - type: exec
 fd:
   - type: exec
+fzftmux:
+  - type: exec
+    name: sk-tmux
+  - type: exec
+    name: fzf-tmux
 fzf:
   - type: exec
+    name: sk
+  - type: exec
+    name: fzf
 ghq:
   - type: exec
 go:
