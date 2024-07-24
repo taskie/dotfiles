@@ -82,3 +82,18 @@
   dir: 'bin'
   pat: '^rgdiff_rg$'
   mode: 755
+
+'distribute/.local/bin/browser':
+  dir: 'bin'
+  pat: '^browser_wsl$'
+  mode: 755
+
+'distribute/.local/bin/pbcopy':
+  dir: 'bin'
+  pat: '^pbcopy_wsl$'
+  mode: 755
+
+'distribute/.local/bin/pbpaste':
+  dir: 'bin'
+  pat: '^pbpaste_wsl$'
+  mode: 755

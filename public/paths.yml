@@ -62,5 +62,8 @@ systemctl:
 tfenv:
   - type: dir
     path: ~/.tfenv
+wsl:
+  - type: env
+    name: WSL_DISTRO_NAME
 zsh:
   - type: exec
