@@ -11,6 +11,7 @@ function agf() {
             | awk -F : '{print "+" $2 " " $1}'
     )"
     if (( $? == 0 )) && [[ -n $list ]]; then
+        printf '%s\n' "$list" >&2
         printf '%s\n' "$list" | xargs -r ${=EDITOR}
     fi
 }
@@ -37,6 +38,7 @@ function rgf() {
     )"
 {{end}}
     if (( $? == 0 )) && [[ -n $list ]]; then
+        printf '%s\n' "$list" >&2
         printf '%s\n' "$list" | xargs -r ${=EDITOR}
     fi
 }
