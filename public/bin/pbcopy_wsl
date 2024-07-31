@@ -1,2 +1,2 @@
 #!/bin/sh
-exec clip.exe
+iconv -t utf16le | clip.exe
