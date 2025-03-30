@@ -1,0 +1,8 @@
+#!/bin/sh
+export CFLAGS="${CFLAGS} -march=native -mtune=native -O2 -pipe -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fstack-clash-protection -fcf-protection"
+export CXXFLAGS="${CFLAGS} ${CXXFLAGS} -Wp,-D_GLIBCXX_ASSERTIONS"
+export RUSTFLAGS="${RUSTFLAGS} -C target-cpu=native"
+export LDFLAGS="${LDFLAGS} -Wl,-O1,--sort-common,--as-needed,-z,relro,-z,now"
+export LTOFLAGS="${LTOFLAGS} -flto=auto"
+export RUSTFLAGS="${RUSTFLAGS} -C opt-level=2 -C target-cpu=native"
+exec "$@"

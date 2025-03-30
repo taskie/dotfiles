@@ -97,3 +97,13 @@
   dir: 'bin'
   pat: '^pbpaste_wsl$'
   mode: 755
+
+'distribute/.local/bin/nativeenv':
+  dir: 'bin'
+  pat: '^nativeenv$'
+  mode: 755
+
+'distribute/.local/bin/nargo':
+  dir: 'bin'
+  pat: '^nargo$'
+  mode: 755
