@@ -120,7 +120,11 @@ if [ -x private.sh ]; then
     fi
 fi
 
-"$POLKADOT" ./entry.yml public/ private/ local/
+LAYERS='public/ private/ local/'
+if [ -f layers.txt ]; then
+    LAYERS="$(tr '[\n]' '[ ]' <./layers.txt)"
+fi
+"$POLKADOT" ./entry.yml $LAYERS
 
 rm_fi() {
     if [ -f "$dst" ]; then
