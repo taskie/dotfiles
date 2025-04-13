@@ -35,6 +35,8 @@ goroot:
 home:
   - type: env
     name: HOME
+ibus:
+  - type: exec
 nvm:
   - type: dir
     path: ~/.nvm
