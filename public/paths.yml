@@ -25,6 +25,8 @@ fzf:
     name: sk
   - type: exec
     name: fzf
+gh:
+  - type: exec
 ghq:
   - type: exec
 go:
