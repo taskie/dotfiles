@@ -69,5 +69,7 @@ tfenv:
 wsl:
   - type: env
     name: WSL_DISTRO_NAME
+zoxide:
+  - type: exec
 zsh:
   - type: exec

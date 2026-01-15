@@ -62,3 +62,13 @@ cdq() {
 
 alias q=cdq
 {{end}}
+
+{{if .zoxide}}
+if [ -n "${ZSH_VERSION:-}" ]; then
+    eval "$({{.zoxide}} init --no-cmd zsh)"
+elif [ -n "${BASH_VERSION:-}" ]; then
+    eval "$({{.zoxide}} init --no-cmd bash)"
+fi
+
+alias x=__zoxide_zi
+{{end}}
