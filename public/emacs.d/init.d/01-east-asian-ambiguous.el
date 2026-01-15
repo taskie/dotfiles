@@ -1,4 +1,5 @@
-; east asian ambiguous character table
+;;; East Asian Ambiguous Width 文字を半角幅として扱う設定
+
 (defun east-asian-ambiguous-characters ()
   '(
     (#x00A1 . #x00A1) (#x00A4 . #x00A4) (#x00A7 . #x00A8)
@@ -54,18 +55,7 @@
     (#x273D . #x273D) (#x2776 . #x277F) (#xE000 . #xF8FF)
     (#xFE00 . #xFE0F) (#xFFE0 . #xFFE6) (#xFFFD . #xFFFD)))
 
-; setting function
 (defun set-east-asian-ambiguous-width (width)
-  (cond ((= emacs-major-version 22) (set-east-asian-ambiguous-width-22 width))
-	((> emacs-major-version 22) (set-east-asian-ambiguous-width-23 width))))
-
-; for emacs 22
-(defun set-east-asian-ambiguous-width-22 (width)
-  (if (= width 2)
-      (utf-translate-cjk-set-unicode-range (east-asian-ambiguous-characters))))
-
-; for over 23 (checked work in emacs 24)
-(defun set-east-asian-ambiguous-width-23 (width)
   (while (char-table-parent char-width-table)
     (setq char-width-table (char-table-parent char-width-table)))
   (let ((table (make-char-table nil)))

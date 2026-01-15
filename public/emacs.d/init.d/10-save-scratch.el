@@ -1,4 +1,6 @@
-;;; auto save and restore scratch buffer
+;;; scratchバッファの自動保存と復元
+
+;; *scratch* バッファの内容をファイルに保存する
 (defun save-scratch-data ()
   (let ((str (progn
 	       (set-buffer (get-buffer "*scratch*"))
@@ -14,10 +16,12 @@
     (save-buffer)
     (kill-buffer buf)))
 
-(defadvice save-buffers-kill-emacs
-    (before save-scratch-buffer activate)
+;; Emacs 終了時に *scratch* バッファを自動保存
+(define-advice save-buffers-kill-emacs
+    (:before (&rest _args) save-scratch-buffer)
   (save-scratch-data))
 
+;; 前回保存した *scratch* バッファの内容を復元する
 (defun read-scratch-data ()
   (let ((file "~/.emacs.d/scratch"))
     (when (file-exists-p file)
@@ -26,4 +30,5 @@
       (insert-file-contents file))
     ))
 
+;; Emacs 起動時に *scratch* バッファの内容を復元
 (read-scratch-data)

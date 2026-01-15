@@ -1,21 +1,16 @@
 (defun my-install ()
   (interactive)
-  (require 'cl-lib)
 
   (defvar installing-package-list
     '(
-      cl-lib
+      diminish
       popup
 
       counsel
       ivy
       ivy-hydrax
       swiper
-      ;; helm
 
-      anzu
-      company
-      git-gutter+
       magit
       popwin
       recentf-ext
@@ -26,19 +21,6 @@
       markdown-mode
 
       {{if .allplugins}}
-      elscreen
-      evil
-      foreign-regexp
-      migemo
-      tabbar
-      ;; yasnippet
-
-      ;; helm-c-yasnippet
-      ;; helm-descbinds
-      ;; helm-migemo
-      ;; helm-ls-git
-      ;; swiper-helm
-
       flycheck
 
       go-mode
@@ -50,19 +32,19 @@
       toml-mode
       web-mode
       yaml-mode
-
-      solarized-theme
-      {{end}}
-
-      {{if .mac}}
-      osx-pseudo-daemon
       {{end}}
       ))
 
-  (let ((not-installed (cl-loop for x in installing-package-list
-                                when (not (package-installed-p x))
-                                collect x)))
+  ;; インストールされていないパッケージのリストを作成
+  (let ((not-installed '()))
+    (dolist (pkg installing-package-list)
+      (unless (package-installed-p pkg)
+        (setq not-installed (cons pkg not-installed))))
+    
+    ;; インストールされていないパッケージがあればインストール
     (when not-installed
       (package-refresh-contents)
-      (cl-dolist (pkg not-installed)
-        (ignore-errors (package-install pkg))))))
+      (dolist (pkg (reverse not-installed))
+        (condition-case nil
+            (package-install pkg)
+          (error nil))))))
