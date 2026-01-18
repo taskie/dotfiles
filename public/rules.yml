@@ -73,6 +73,11 @@
   pat: '^findup$'
   mode: 755
 
+'distribute/.local/bin/git-wta':
+  dir: 'bin'
+  pat: '^git-wta$'
+  mode: 755
+
 'distribute/.local/bin/makeup':
   dir: 'bin'
   pat: '^makeup$'

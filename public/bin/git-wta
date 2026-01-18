@@ -1,0 +1,72 @@
+#!/bin/sh
+set -eu
+PROGRAM_NAME="$(basename "$0")"
+
+usage() {
+  cat <<EOF
+Usage: ${PROGRAM_NAME} [-b] <branch-name> [<git-worktree-options>...]
+EOF
+}
+
+println() {
+  printf '%s\n' "$@"
+}
+
+log() {
+  println "$*" >&2
+}
+
+log_fatal() {
+  log "FATAL: $*"
+  exit 1
+}
+
+NEW_BRANCH=
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -h|--help)
+      usage
+      exit 0 ;;
+    -b|-B)
+      NEW_BRANCH=1
+      shift ;;
+    --)
+      shift
+      break ;;
+    -*)
+      usage >&2
+      log_fatal 'unknown option: '"$1" ;;
+    *)
+      break ;;
+  esac
+done
+
+if [ $# -lt 1 ]; then
+  usage >&2
+  log_fatal 'branch name is required'
+fi
+
+BRANCH_NAME="$1"
+shift
+BRANCH_NAME_SAFE="$(printf '%s\n' "$BRANCH_NAME" | LC_ALL=C sed 's%[@/]%-%g')"
+
+if ! TOPDIR="$(git rev-parse --show-toplevel)"; then
+  log_fatal 'not a git repository'
+fi
+
+TOPNAME="$(basename "$TOPDIR")"
+cd "$TOPDIR"
+TARGET_DIR="../${TOPNAME}@${BRANCH_NAME_SAFE}"
+
+if [ -d "$TARGET_DIR" ]; then
+  log_fatal "target directory already exists: $TARGET_DIR"
+fi
+
+if [ -n "$NEW_BRANCH" ]; then
+  log git worktree add -b "$BRANCH_NAME" "$TARGET_DIR" "$@"
+  git worktree add -b "$BRANCH_NAME" "$TARGET_DIR" "$@"
+else
+  log git worktree add "$TARGET_DIR" "$BRANCH_NAME" "$@"
+  git worktree add "$TARGET_DIR" "$BRANCH_NAME" "$@"
+fi
