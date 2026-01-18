@@ -1,7 +1,11 @@
 #!/bin/sh
-OUTPUT="$(powershell.exe -Command 'chcp 65001; Get-Clipboard' | sed 's/\r//g')"
-if printf "%s" "$OUTPUT" | head -n 1 | LC_ALL=C grep '^Active code page: 65001' >/dev/null 2>&1; then
-  printf "%s" "$OUTPUT" | tail -n +2
+if type wl-paste >/dev/null 2>&1; then
+  exec wl-paste
 else
-  printf "%s" "$OUTPUT"
+  OUTPUT="$(powershell.exe -Command 'chcp 65001; Get-Clipboard' | sed 's/\r//g')"
+  if printf "%s" "$OUTPUT" | head -n 1 | LC_ALL=C grep '^Active code page: 65001' >/dev/null 2>&1; then
+    printf "%s" "$OUTPUT" | tail -n +2
+  else
+    printf "%s" "$OUTPUT"
+  fi
 fi
