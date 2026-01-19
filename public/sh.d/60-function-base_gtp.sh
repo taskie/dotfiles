@@ -31,19 +31,38 @@ ls_abbrev() {
     fi
 }
 
-vcs_status() {
+vcs_type() {
     if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = 'true' ]; then
-        echo -e "\e[0;33m--- git status ---\e[0m"
-        git status -sb
+        echo 'git'
     elif hg root >/dev/null 2>&1; then
-        echo -e "\e[0;33m--- hg status ---\e[0m"
-        hg status
+        echo 'hg'
     elif svn info >/dev/null 2>&1; then
-        echo -e "\e[0;33m--- svn status ---\e[0m"
-        svn status
+        echo 'svn'
     elif [ -d CVS ]; then
-        echo -e "\e[0;33m--- cvs status ---\e[0m"
-        cvs -q -n update
+        echo 'cvs'
+    else
+        echo ''
+    fi
+}
+
+vcs_status() {
+    _type="${1:-$(vcs_type)}"
+    echo -e "\e[0;33m--- ${_type} status ---\e[0m"
+    case "${_type}" in
+        git) git status -sb ;;
+        hg)  hg status ;;
+        svn) svn status ;;
+        cvs) cvs -q -n update ;;
+        *)   echo "Unknown VCS type: ${_type}" ;;
+    esac
+}
+
+@() {
+    ls_abbrev
+    _vcs_type="$(vcs_type)"
+    if [ -n "${_vcs_type}" ]; then
+        echo
+        vcs_status "${_vcs_type}"
     fi
 }
 
