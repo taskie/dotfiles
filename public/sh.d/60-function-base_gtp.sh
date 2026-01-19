@@ -57,7 +57,7 @@ vcs_status() {
     esac
 }
 
-@() {
+ls_abbrev_with_vcs() {
     ls_abbrev
     _vcs_type="$(vcs_type)"
     if [ -n "${_vcs_type}" ]; then
@@ -65,6 +65,8 @@ vcs_status() {
         vcs_status "${_vcs_type}"
     fi
 }
+
+alias @=ls_abbrev_with_vcs
 
 cdg() {
     cd "$(git rev-parse --show-toplevel)" || return 1
