@@ -39,6 +39,8 @@ home:
     name: HOME
 ibus:
   - type: exec
+mise:
+  - type: exec
 nvm:
   - type: dir
     path: ~/.nvm
