@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Windows File Protocol Handler
+NoDisplay=true
+Exec={{.home}}/.local/bin/winopen
+MimeType=inode/directory;text/html;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/unknown;

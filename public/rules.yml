@@ -122,3 +122,8 @@
   dir: 'bin'
   pat: '^nargo$'
   mode: 755
+
+'distribute/.local/bin/winopen':
+  dir: 'bin'
+  pat: '^winopen_wsl$'
+  mode: 755

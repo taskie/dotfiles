@@ -1,0 +1,16 @@
+#!/bin/sh
+EXE=/mnt/c/Windows/System32/rundll32.exe
+
+if [ $# -ge 1 ]; then
+  case "$1" in
+    *://*)
+      URL="$1"
+      ;;
+    *)
+      URL="$(wslpath -w "$1")"
+      ;;
+  esac
+  exec "$EXE" url.dll,FileProtocolHandler "$URL"
+else
+  exec "$EXE" url.dll,FileProtocolHandler
+fi
