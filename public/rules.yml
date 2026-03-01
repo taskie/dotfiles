@@ -78,6 +78,16 @@
   pat: '^git-wta$'
   mode: 755
 
+'distribute/.local/bin/lpsql':
+  dir: 'bin'
+  pat: '^lpsql$'
+  mode: 755
+
+'distribute/.local/bin/lpsqld':
+  dir: 'bin'
+  pat: '^lpsqld$'
+  mode: 755
+
 'distribute/.local/bin/makeup':
   dir: 'bin'
   pat: '^makeup$'

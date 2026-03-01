@@ -1,0 +1,3 @@
+#!/bin/sh
+# lpsql - Local PostgreSQL Client
+exec psql -U postgres -h localhost "$@"

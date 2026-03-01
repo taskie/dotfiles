@@ -1,0 +1,47 @@
+#!/bin/sh
+# lpsqld - Local PostgreSQL Daemon
+set -eux
+
+VOLUME="${LPSQLD_VOLUME:-postgres}"
+PASSWORD="${LPSQLD_PASSWORD:-dummy}"
+TZ="${LPSQLD_TZ:-Etc/Utc}"
+LOG_TZ="${LPSQLD_TZ:-Asia/Tokyo}"
+
+cmd_up() {
+  docker run \
+    -d \
+    --rm \
+    --name lpsqld \
+    -p 5432:5432 \
+    -e "POSTGRES_PASSWORD=${PASSWORD}" \
+    -v "${VOLUME}:/var/lib/postgresql/data" \
+    postgres:18 \
+    -c log_statement=all \
+    -c "timezone=${TZ}" \
+    -c "log_timezone=${LOG_TZ}"
+}
+
+cmd_down() {
+  docker stop lpsqld
+}
+
+cmd_logs() {
+  docker logs -f lpsqld
+}
+
+if [ $# -gt 0 ]; then
+  subcommand="$1"
+  shift
+else
+  subcommand=up
+fi
+
+case "$subcommand" in
+  up|down|logs)
+    "cmd_${subcommand}" "$@"
+    ;;
+  *)
+    echo "unknown subcommand: ${subcommand}" >&2
+    exit 1
+    ;;
+esac
