@@ -38,3 +38,7 @@ fi
 {{if .poetry}}
 export PATH="${HOME}/.poetry/bin:${PATH}"
 {{end}}
+
+{{if .mise}}
+export PATH="${HOME}/.local/share/mise/shims:${PATH}"
+{{end}}
