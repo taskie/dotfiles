@@ -22,6 +22,15 @@ export NVM_DIR="${HOME}/.nvm"
 . "${NVM_DIR}/nvm.sh"
 {{end}}
 
+{{if .go}}
+{{if .goroot}}
+export GOROOT="{{.goroot}}"
+export PATH="${GOROOT}/bin:${PATH}"
+{{end}}
+export GOPATH="${HOME}/go"
+export PATH="${GOPATH}/bin:${PATH}"
+{{end}}
+
 {{if .cargo}}
 export PATH="${HOME}/.cargo/bin:${PATH}"
 {{end}}
@@ -38,6 +47,11 @@ fi
 {{if .poetry}}
 export PATH="${HOME}/.poetry/bin:${PATH}"
 {{end}}
+
+# .local/bin
+export PATH="${HOME}/.local/bin:${PATH}"
+export LD_LIBRARY_PATH="${HOME}/.local/lib64:${HOME}/.local/lib:${LD_LIBRARY_PATH}"
+export PKG_CONFIG_PATH="${HOME}/.local/lib64/pkgconfig:${HOME}/.local/lib/pkgconfig:${PKG_CONFIG_PATH}"
 
 {{if .mise}}
 export PATH="${HOME}/.local/share/mise/shims:${PATH}"
