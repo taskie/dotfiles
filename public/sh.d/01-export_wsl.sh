@@ -1,1 +1,1 @@
-export BROWSER="${HOME}/.local/bin/browser"
+export BROWSER="${HOME}/.local/bin/winopen"

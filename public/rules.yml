@@ -98,11 +98,6 @@
   pat: '^rgdiff_rg$'
   mode: 755
 
-'distribute/.local/bin/browser':
-  dir: 'bin'
-  pat: '^browser_wsl$'
-  mode: 755
-
 'distribute/.local/bin/pbcopy':
   dir: 'bin'
   pat: '^pbcopy_wsl$'
@@ -127,3 +122,11 @@
   dir: 'bin'
   pat: '^winopen_wsl$'
   mode: 755
+
+'distribute/.local/share/applications/winopen.desktop':
+  dir: 'etc/share/applications'
+  pat: '^winopen[^.]+.desktop$'
+
+'distribute/.local/share/mimeapps.list.new':
+  dir: 'etc/share'
+  pat: '^mimeapps[^.]+.list$'

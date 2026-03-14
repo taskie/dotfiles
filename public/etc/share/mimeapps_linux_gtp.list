@@ -1,6 +1,8 @@
 [Default Applications]
+{{if .wsl}}
 inode/directory=winopen.desktop
 text/html=winopen.desktop
 x-scheme-handler/http=winopen.desktop
 x-scheme-handler/https=winopen.desktop
 x-scheme-handler/unknown=winopen.desktop
+{{end}}
