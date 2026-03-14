@@ -23,7 +23,7 @@ export NVM_DIR="${HOME}/.nvm"
 {{end}}
 
 {{if .cargo}}
-. "${HOME}/.cargo/env"
+export PATH="${HOME}/.cargo/bin:${PATH}"
 {{end}}
 
 {{if .pyenv}}
