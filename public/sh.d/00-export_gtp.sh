@@ -9,3 +9,6 @@ export FILTER='{{if .fzftmux}}{{.fzftmux}}{{else if .fzf}}{{.fzf}}{{end}}'
 {{if .term}}
 export TERM='{{.term}}'
 {{end}}
+{{if .colorterm}}
+export COLORTERM='{{.colorterm}}'
+{{end}}
