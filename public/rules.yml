@@ -134,3 +134,7 @@
 'distribute/.local/share/mimeapps.list.new':
   dir: 'etc/share'
   pat: '^mimeapps[^.]+.list$'
+
+'distribute/.config/wezterm/wezterm.lua':
+  dir: 'etc'
+  pat: '^wezterm(_[^.]+)?\.lua$'
