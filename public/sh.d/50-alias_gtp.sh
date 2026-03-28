@@ -9,6 +9,7 @@ alias b='bat -p'
 alias c='cargo'
 alias e="$EDITOR"
 alias g='git'
+alias m='{{if .glow}}glow -p{{else}}bat -p{{end}}'
 
 alias sudx='sudo '
 

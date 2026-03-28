@@ -29,6 +29,8 @@ gh:
   - type: exec
 ghq:
   - type: exec
+glow:
+  - type: exec
 go:
   - type: exec
 goroot:

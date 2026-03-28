@@ -58,6 +58,10 @@
   dir: 'emacs.d/init.d'
   pat: '\.el$'
 
+'distribute/.config/glow/glow.yml':
+  dir: 'etc'
+  pat: '^glow(_.+)?\.yml$'
+
 'distribute/.local/bin/goxb':
   dir: 'bin'
   pat: '^goxb_go$'
