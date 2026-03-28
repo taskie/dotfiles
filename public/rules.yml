@@ -95,7 +95,7 @@
 
 'distribute/.local/bin/rgdiff':
   dir: 'bin'
-  pat: '^rgdiff_rg$'
+  pat: '^rgdiff(_.+)?$'
   mode: 755
 
 'distribute/.local/bin/pbcopy':

@@ -41,6 +41,8 @@ ibus:
   - type: exec
 mise:
   - type: exec
+nablex:
+  - type: exec
 nvm:
   - type: dir
     path: ~/.nvm
@@ -52,6 +54,8 @@ phpenv:
 poetry:
   - type: dir
     path: ~/.poetry
+parallel:
+  - type: exec
 pyenv:
   - type: dir
     path: ~/.pyenv
