@@ -14,6 +14,7 @@ config.cursor_blink_ease_out = 'Constant'
 config.window_background_opacity = 0.98
 config.text_background_opacity = 0.98
 config.hide_tab_bar_if_only_one_tab = true
+config.swallow_mouse_click_on_window_focus = true
 
 {{if .wezterm_default_domain}}
 config.default_domain = '{{.wezterm_default_domain}}'
