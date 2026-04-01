@@ -3,3 +3,7 @@ tmp/
 .env
 .env.*
 .envrc
+
+settings.local.json
+
+.vscode/
