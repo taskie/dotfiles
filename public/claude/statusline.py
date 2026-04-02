@@ -57,6 +57,10 @@ def fmt(label, pct, resets_at=None):
 model = data.get("model", {}).get("display_name", "Claude")
 parts = [f"{BOLD}{model}{R}"]
 
+cost = data.get("cost", {}).get("total_cost_usd")
+if cost is not None:
+    parts.append(f"{DIM}cost{R} ${cost:.1f}")
+
 ctx = data.get("context_window", {}).get("used_percentage")
 if ctx is not None:
     parts.append(fmt("ctx", ctx))
