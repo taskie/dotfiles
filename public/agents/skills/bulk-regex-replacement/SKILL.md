@@ -1,5 +1,5 @@
 ---
-name: preview-replacement
+name: bulk-regex-replacement
 description: Preview bulk text replacements across multiple files as a unified diff without modifying any files. Use when the user asks to "preview a replacement", "dry-run a find and replace", "show diff for search and replace", or wants to verify substitution results before applying.
 user-invocable: true
 argument-hint: [PATTERN] [REPLACEMENT_TEXT] [RG_ARGS...]
@@ -27,7 +27,7 @@ Use `rgdiff` + `patch` when the same mechanical replacement applies to many file
 2. Show the output to the user
 3. If the user approves, apply with `rgdiff PATTERN REPLACEMENT_TEXT [RG_ARGS...] | patch -p0`
 
-When invoked as `/preview-replacement` with arguments, run step 1 directly:
+When invoked as `/bulk-regex-replacement` with arguments, run step 1 directly:
 
 ```sh
 rgdiff $ARGUMENTS
