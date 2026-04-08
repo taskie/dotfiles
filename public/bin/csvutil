@@ -1,0 +1,205 @@
+#!/usr/bin/env python3
+"""csvutil: A simple utility to convert between CSV and JSON formats."""
+
+import argparse
+import csv
+import json
+import os
+import shutil
+import signal
+import sys
+import io
+import tempfile
+from typing import Iterable, Generator, Any, Sequence, Callable
+
+
+def _parse_csv(
+    f: Iterable[str], delimiter: str = ","
+) -> Generator[dict[str, Any], None, None]:
+    reader = csv.DictReader(f, delimiter=delimiter)
+    for row in reader:
+        yield row
+
+
+def _flatten_json(obj: dict[str, Any], prefix: str = "") -> dict[str, Any]:
+    """Flatten a nested dict using JSON Pointer (RFC 6901) keys."""
+    result: dict[str, Any] = {}
+    for key, value in obj.items():
+        escaped = key.replace("~", "~0").replace("/", "~1")
+        pointer = f"{prefix}/{escaped}"
+        if isinstance(value, dict):
+            result.update(_flatten_json(value, pointer))  # type: ignore
+        else:
+            result[pointer] = value
+    return result
+
+
+def _unflatten_json(obj: dict[str, Any]) -> dict[str, Any]:
+    """Reconstruct nested dict from JSON Pointer (RFC 6901) keys."""
+    result: dict[str, Any] = {}
+    for pointer, value in obj.items():
+        parts = pointer.lstrip("/").split("/")
+        parts = [p.replace("~1", "/").replace("~0", "~") for p in parts]
+        target = result
+        for part in parts[:-1]:
+            if part not in target:
+                target[part] = {}
+            target = target[part]
+        target[parts[-1]] = value
+    return result
+
+
+def _parse_json(f: Iterable[str]) -> Generator[dict[str, Any], None, None]:
+    for line in f:
+        line = line.rstrip("\n")
+        if line:
+            yield json.loads(line)
+
+
+def _parse_json_flat(f: Iterable[str]) -> Generator[dict[str, Any], None, None]:
+    for line in f:
+        line = line.rstrip("\n")
+        if line:
+            yield _flatten_json(json.loads(line))
+
+
+Parser = Callable[[Iterable[str]], Generator[dict[str, Any], None, None]]
+
+
+def _select_parser(fmt: str) -> Parser:
+    if fmt == "csv":
+        return _parse_csv
+    elif fmt == "tsv":
+        return lambda f: _parse_csv(f, delimiter="\t")
+    elif fmt == "json":
+        return _parse_json
+    elif fmt == "json-flat":
+        return _parse_json_flat
+    else:
+        raise ValueError(f"Unsupported format: {fmt}")
+
+
+def _format_csv(
+    rows: Iterable[dict[str, Any]], fieldnames: Sequence[str], delimiter: str = ","
+) -> Generator[str, None, None]:
+    buf = io.StringIO()
+    writer = csv.DictWriter(
+        buf, fieldnames=fieldnames, delimiter=delimiter, lineterminator=""
+    )
+    writer.writeheader()
+    yield buf.getvalue()
+    for row in rows:
+        buf.seek(0)
+        buf.truncate()
+        writer.writerow(row)
+        yield buf.getvalue()
+
+
+def _format_json(rows: Iterable[dict[str, Any]]) -> Generator[str, None, None]:
+    for row in rows:
+        yield json.dumps(row, ensure_ascii=False)
+
+
+def _format_json_flat(rows: Iterable[dict[str, Any]]) -> Generator[str, None, None]:
+    for row in rows:
+        yield json.dumps(_unflatten_json(row), ensure_ascii=False)
+
+
+Formatter = Callable[
+    [Iterable[dict[str, Any]], Sequence[str]], Generator[str, None, None]
+]
+
+
+def _select_formatter(fmt: str) -> Formatter:
+    if fmt == "csv":
+        return lambda rows, fieldnames: _format_csv(rows, fieldnames, delimiter=",")
+    elif fmt == "tsv":
+        return lambda rows, fieldnames: _format_csv(rows, fieldnames, delimiter="\t")
+    elif fmt == "json":
+        return lambda rows, _: _format_json(rows)
+    elif fmt == "json-flat":
+        return lambda rows, _: _format_json_flat(rows)
+    else:
+        raise ValueError(f"Unsupported format: {fmt}")
+
+
+_FORMATS = {"csv", "tsv", "json", "json-flat"}
+
+
+def _infer_formats_from_argv0() -> tuple[str, str] | None:
+    basename = os.path.basename(sys.argv[0])
+    if "2" in basename:
+        left, _, right = basename.partition("2")
+        if left in _FORMATS and right in _FORMATS:
+            return left, right
+    return None
+
+
+def main() -> None:
+    inferred_formats = _infer_formats_from_argv0()
+    default_from = inferred_formats[0] if inferred_formats else "csv"
+    default_to = inferred_formats[1] if inferred_formats else "json"
+
+    arg_parser = argparse.ArgumentParser(
+        description="A simple utility to convert between CSV and JSON formats."
+    )
+    arg_parser.add_argument(
+        "--from",
+        "-f",
+        default=default_from,
+        help="Input format",
+        choices=["csv", "tsv", "json", "json-flat"],
+    )
+    arg_parser.add_argument(
+        "--to",
+        "-t",
+        default=default_to,
+        help="Output format",
+        choices=["json", "json-flat", "csv", "tsv"],
+    )
+    arg_parser.add_argument(
+        "--tmp-dir",
+        default="/var/tmp",
+        help="Directory to store temporary files",
+    )
+    args = arg_parser.parse_args()
+
+    parser = _select_parser(args.__dict__["from"])
+    formatter = _select_formatter(args.to)
+
+    fd, tmppath = tempfile.mkstemp(dir=args.tmp_dir, prefix="csvutil-")
+
+    def _cleanup(signum: int | None = None, _frame: Any = None) -> None:
+        try:
+            os.unlink(tmppath)
+        except FileNotFoundError:
+            pass
+        if signum is not None:
+            signal.signal(signum, signal.SIG_DFL)
+            os.kill(os.getpid(), signum)
+
+    for sig in (signal.SIGTERM, signal.SIGHUP, signal.SIGINT, signal.SIGQUIT):
+        signal.signal(sig, _cleanup)
+
+    try:
+        with os.fdopen(fd, "wb") as f:
+            shutil.copyfileobj(sys.stdin.buffer, f)
+
+        # Pass 1: collect fieldnames (dict preserves insertion order)
+        fieldname_dict: dict[str, None] = {}
+        with open(tmppath, "r") as f:
+            for row in parser(f):
+                fieldname_dict.update(dict.fromkeys(row.keys()))
+
+        fieldnames = list(fieldname_dict)
+
+        # Pass 2: format and output
+        with open(tmppath, "r") as f:
+            for line in formatter(parser(f), fieldnames):
+                print(line)
+    finally:
+        _cleanup()
+
+
+if __name__ == "__main__":
+    main()

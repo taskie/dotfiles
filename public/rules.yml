@@ -72,6 +72,11 @@
   pat: '^brug_mac$'
   mode: 755
 
+'distribute/.local/bin/csvutil':
+  dir: 'bin'
+  pat: '^csvutil$'
+  mode: 755
+
 'distribute/.local/bin/findup':
   dir: 'bin'
   pat: '^findup$'
