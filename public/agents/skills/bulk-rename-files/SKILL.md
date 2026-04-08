@@ -2,7 +2,7 @@
 name: bulk-rename-files
 description: Bulk rename files safely with zsh zmv using dry-run first, then apply after confirmation. Use when the user asks to rename many files by filename pattern (prefix/suffix/extension) in one shot.
 user-invocable: true
-argument-hint: [BEFORE] [AFTER] [TARGET_GLOB]
+argument-hint: '[BEFORE_GLOB] [AFTER_GLOB]'
 ---
 
 # Bulk File Renames With zmv
@@ -10,7 +10,7 @@ argument-hint: [BEFORE] [AFTER] [TARGET_GLOB]
 Use `zsh` + `zmv` to rename many files by filename pattern.
 
 ```sh
-zsh -ic 'autoload -Uz zmv; zmv -nW "$1" "$2' 0 "$BEFORE" "$AFTER"
+zsh -ic 'autoload -Uz zmv; zmv -nW "$1" "$2' 0 "$BEFORE_GLOB" "$AFTER_GLOB"
 ```
 
 - `-n` : dry-run (preview only, no files are changed)

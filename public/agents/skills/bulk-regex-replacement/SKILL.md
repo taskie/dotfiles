@@ -2,7 +2,7 @@
 name: bulk-regex-replacement
 description: Preview bulk text replacements across multiple files as a unified diff without modifying any files. Use when the user asks to "preview a replacement", "dry-run a find and replace", "show diff for search and replace", or wants to verify substitution results before applying.
 user-invocable: true
-argument-hint: [PATTERN] [REPLACEMENT_TEXT] [RG_ARGS...]
+argument-hint: '[PATTERN] [REPLACEMENT_TEXT] [RG_ARGS...]'
 ---
 
 # Preview Bulk Replacements
