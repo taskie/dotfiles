@@ -46,6 +46,10 @@
   dir: 'vim.d'
   pat: '\.vim$'
 
+'distribute/.config/nvim/init.lua':
+  dir: 'nvim.d'
+  pat: '\.lua$'
+
 'distribute/.zshrc':
   dirs: ['sh.d', 'zsh.d']
   pat: '\.z?sh$'
@@ -143,3 +147,8 @@
 'distribute/.config/wezterm/wezterm.lua':
   dir: 'etc'
   pat: '^wezterm(_[^.]+)?\.lua$'
+
+'distribute/.claude/statusline.py':
+  dir: 'claude'
+  pat: '^statusline\.py$'
+  mode: 755
