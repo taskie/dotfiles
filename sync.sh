@@ -120,11 +120,15 @@ if [ -x private.sh ]; then
     fi
 fi
 
-LAYERS='public/ private/ local/'
-if [ -f layers.txt ]; then
-    LAYERS="$(tr '[\n]' '[ ]' <./layers.txt)"
+if [ -e layers.txt ]; then
+    log "layers.txt was obsolete."
+    exit 1
 fi
-"$POLKADOT" ./entry.yml $LAYERS
+if [ -e polkadot.local.yml ]; then
+    "$POLKADOT" -c polkadot.local.yml
+else
+    "$POLKADOT"
+fi
 
 rm_fi() {
     if [ -f "$dst" ]; then

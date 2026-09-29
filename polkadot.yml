@@ -1,0 +1,6 @@
+components:
+  - public
+  - path: private
+    optional: true
+  - path: local
+    optional: true
