@@ -6,8 +6,18 @@
 # Modified by taskie
 
 import json
+import os
 import sys
 import time
+
+
+def compress_user_dir(path):
+    abs_path = os.path.abspath(path)
+    home_dir = os.path.expanduser("~")
+    if abs_path.startswith(home_dir):
+        return "~" + abs_path[len(home_dir) :]
+    return abs_path
+
 
 if sys.platform == "win32":
     sys.stdout.reconfigure(encoding="utf-8")
@@ -54,8 +64,14 @@ def fmt(label, pct, resets_at=None):
     return f"{DIM}{label}{remaining(resets_at)}{R} {gradient(pct)}{ring(pct)} {p}%{R}"
 
 
+parts = []
+
 model = data.get("model", {}).get("display_name", "Claude")
-parts = [f"{BOLD}{model}{R}"]
+effort = data.get("effort", {}).get("level")
+if effort is not None:
+    parts.append(f"{BOLD}{model}{R} ({effort})")
+else:
+    parts.append(f"{BOLD}{model}{R}")
 
 cost = data.get("cost", {}).get("total_cost_usd")
 if cost is not None:
@@ -74,5 +90,14 @@ seven_day = data.get("rate_limits", {}).get("seven_day", {})
 week = seven_day.get("used_percentage")
 if week is not None:
     parts.append(fmt("7d", week, seven_day.get("resets_at")))
+
+print(f"  {DIM}·{R}  ".join(parts))
+
+parts = []
+
+project_dir = data.get("workspace", {}).get("project_dir")
+if project_dir is not None:
+    project_dir = compress_user_dir(project_dir)
+    parts.append(f"{project_dir}")
 
 print(f"  {DIM}·{R}  ".join(parts), end="")
