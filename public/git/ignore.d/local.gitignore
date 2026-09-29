@@ -1,0 +1,5 @@
+*.local.md
+*.local.json
+*.local.toml
+*.local.yml
+*.local.yaml
