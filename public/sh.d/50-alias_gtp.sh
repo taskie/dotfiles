@@ -13,7 +13,7 @@ alias m='{{if .glow}}glow -p{{else}}bat -p{{end}}'
 
 alias sudx='sudo '
 
-alias ls='{{if .exa}}{{.exa}} --sort=Name{{else}}ls{{if .mac}} -G{{else}} --color --show-control-chars{{end}}{{end}} -F'
+alias ls='{{if .exa}}{{.exa}} --sort=Name --classify=auto{{else}}ls{{if .mac}} -G{{else}} --color --show-control-chars{{end}} -F{{end}}'
 alias la='ls -a'
 alias ll='ls -l{{if not .exa}}h{{end}}'
 alias lla='ll -a'
